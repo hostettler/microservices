@@ -1,4 +1,4 @@
-package api;
+package api.rest;
 
 import java.util.List;
 
@@ -25,6 +25,7 @@ public class InstrumentRestService {
 	@Inject
 	private InstrumentService instrumentService;
 
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Get all the instruments",
@@ -32,5 +33,6 @@ public class InstrumentRestService {
 	public List<Instrument> getAll() {
 		return instrumentService.getAll();
 	}
+	
 
 }

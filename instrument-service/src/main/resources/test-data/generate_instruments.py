@@ -41,7 +41,7 @@ with open('lei.csv', newline='') as leiCsvfile:
 
 
 currency = ['USD', 'CHF', 'EUR', 'SGD', 'GBP']
-insert = 'INSERT INTO Instrument (ID, instrumentype, brokerLei, counterpartyLei, dealDate, originalCurrency, valueDate, isin, tracker, quantity, maturityDate, amountInOriginalCurrency, strikeAmount, direction) values ( INSTRUMENT_SEQ.nextval, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}  );'
+insert = 'INSERT INTO Instrument (ID, instrumentType, brokerLei, counterpartyLei, dealDate, originalCurrency, valueDate, isin, tracker, quantity, maturityDate, amountInOriginalCurrency, strikeAmount, direction) values ( INSTRUMENT_SEQ.nextval, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}  );'
 
 class Instrument:
 	def __init__(self, data, discriminant, isinPos, valuePos, maturityPos, trackerPos, strikePos, dirPos, currencyPos):

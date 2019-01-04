@@ -15,8 +15,8 @@
 		<version.thorntail>2.2.1.Final</version.thorntail>
 		<version.h2>1.4.197</version.h2>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
-    	<maven.compiler.source>1.8</maven.compiler.source>
-    	<maven.compiler.target>1.8</maven.compiler.target>		
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
 
@@ -60,11 +60,21 @@
 				<artifactId>h2</artifactId>
 				<version>${version.h2}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.aerogear.kafka</groupId>
+				<artifactId>kafka-cdi-extension</artifactId>
+				<version>0.1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>io.thorntail</groupId>
+				<artifactId>swagger</artifactId>
+				<version>2.2.1.Final</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 
-	
+
 	<build>
 		<pluginManagement>
 			<plugins>

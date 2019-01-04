@@ -1,4 +1,4 @@
-package api;
+package api.rest;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

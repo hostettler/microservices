@@ -30,11 +30,10 @@
 			<groupId>io.thorntail</groupId>
 			<artifactId>transactions</artifactId>
 		</dependency>
-    <dependency>
-      <groupId>io.thorntail</groupId>
-      <artifactId>swagger</artifactId>
-      <version>2.2.1.Final</version>
-    </dependency>	
+		<dependency>
+			<groupId>io.thorntail</groupId>
+			<artifactId>swagger</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>javax.enterprise</groupId>
 			<artifactId>cdi-api</artifactId>
@@ -58,6 +57,10 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aerogear.kafka</groupId>
+			<artifactId>kafka-cdi-extension</artifactId>
 		</dependency>
 	</dependencies>
 
