@@ -23,4 +23,27 @@ public class InstrumentServiceImpl implements InstrumentService {
 		criteria.from(Instrument.class);
 		return em.createQuery(criteria).getResultList();
 	}
+
+	@Override
+	public void update(Instrument instrument) {
+		Instrument i = em.find(Instrument.class, instrument.getId());
+		if (i == null) {
+			throw new IllegalArgumentException("Instrument does not exist : " + instrument.getId());
+		}
+		em.merge(instrument);
+	}
+
+	@Override
+	public Instrument get(String instrumentId) {
+		return em.find(Instrument.class, instrumentId);
+	}
+	
+	@Override
+	public void create(Instrument instrument) {
+		if (instrument.getId() != null) {
+			throw new IllegalArgumentException("Instrument already exists : " + instrument.getId());
+		}
+		em.persist(instrument);
+	}
+
 }

@@ -17,8 +17,12 @@ public class InstrumentConsumer {
 	private InstrumentProducer producer;
 
 	@Consumer(topics = "instrumentsReq", groupId = "pinfo-microservices")
-	public void sendAllInstruments(final String message) {
+	public void updateInstrument(final String message) {
 		log.info("Consumer got following message : " + message);
-		producer.sendAllInstruments();
+		if (message.equals("all")) {
+			producer.sendAllInstruments();
+		} else {
+			producer.send(message);
+		}
 	}
 }

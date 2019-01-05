@@ -23,10 +23,23 @@ public class InstrumentProducer {
 	private InstrumentService instrumentService;
 
 	public void sendAllInstruments() {
-		log.info("Producer produced a message");
+		log.info("Send the current state of ALL instruments to the topic");
 		for (Instrument instrument : instrumentService.getAll()) {
 			producer.send("instruments", instrument);	
 		}
 		
+	}
+
+	public void send(Instrument instrument) {
+		log.info("Send the state of an instrument to the topic with id " + instrument.getId() );
+		producer.send("instruments", instrument);			
+	}
+
+	public void send(String instrumentId) {
+		log.info("Send the state of an instrument to the topic with id " + instrumentId);
+		Instrument instrument = instrumentService.get(instrumentId);
+		if (instrument != null) {
+			send(instrument);
+		}
 	}
 }

@@ -8,4 +8,10 @@ public interface InstrumentService {
 
 	List<Instrument> getAll();
 
+	void update(Instrument instrument);
+
+	void create(Instrument instrument);
+
+	Instrument get(String instrumentId);
+
 }
