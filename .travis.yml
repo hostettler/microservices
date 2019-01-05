@@ -4,5 +4,4 @@ addons:
   sonarcloud:
     organization: "hostettler-github" # the key of the org you chose at step #3
 script:
-  - mvn test
-  - mvn sonar:sonar -Dsonar.projectKey=hostettler_microservices -Dsonar.organization=hostettler-github    -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=10de2947edc0e089a82360cb2d1aa97482fafc28
+  "mvn test & mvn sonar:sonar -Dsonar.projectKey=hostettler_microservices -Dsonar.organization=hostettler-github    -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=10de2947edc0e089a82360cb2d1aa97482fafc28"
