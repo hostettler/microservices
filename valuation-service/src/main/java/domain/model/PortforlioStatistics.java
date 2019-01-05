@@ -19,9 +19,9 @@ public class PortforlioStatistics {
 	public PortforlioStatistics(String reportingCurrency) {
 		this.breakdownByInstrumentType = new HashMap<>();
 		this.breakdownByCurrency = new HashMap<>();
-		this.currentValue = new BigDecimal(0.0);
-		this.percentile95 = new BigDecimal(0.0);
-		this.percentile99 = new BigDecimal(0.0);
+		this.currentValue = new BigDecimal("0.0");
+		this.percentile95 = new BigDecimal("0.0");
+		this.percentile99 = new BigDecimal("0.0");
 		this.reportingCurrency = reportingCurrency;
 	}
 
@@ -30,7 +30,7 @@ public class PortforlioStatistics {
 		if (currency.equals(reportingCurrency)) {
 			amountInReportingCurrency = amount;
 		} else {
-			BigDecimal rate = new BigDecimal(1.0);
+			BigDecimal rate = new BigDecimal("1.0");
 			amountInReportingCurrency = amount.multiply(rate);
 		}
 		

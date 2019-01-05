@@ -17,7 +17,7 @@ import lombok.extern.java.Log;
 public class InstrumentProducer {
 
 	@Producer
-	SimpleKafkaProducer<String, Instrument> producer;
+	private SimpleKafkaProducer<String, Instrument> producer;
 
 	@Inject
 	private InstrumentService instrumentService;

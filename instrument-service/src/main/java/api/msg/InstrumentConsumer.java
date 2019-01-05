@@ -19,7 +19,7 @@ public class InstrumentConsumer {
 	@Consumer(topics = "instrumentsReq", groupId = "pinfo-microservices")
 	public void updateInstrument(final String message) {
 		log.info("Consumer got following message : " + message);
-		if (message.equals("all")) {
+		if ("all".equals(message)) {
 			producer.sendAllInstruments();
 		} else {
 			producer.send(message);
