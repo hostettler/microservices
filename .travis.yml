@@ -1,1 +1,10 @@
 language: java
+
+addons:
+  sonarcloud:
+    organization: "hostettler-github" # the key of the org you chose at step #3
+    token:
+      secure: 10de2947edc0e089a82360cb2d1aa97482fafc28 # encrypted value of your token
+script:
+  # other script steps might be done before running the actual analysis
+  - sonar-scanner

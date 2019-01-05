@@ -1,6 +1,7 @@
 package domain.model;
 
 import java.math.BigDecimal;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public class PortforlioStatistics {
 	private BigDecimal percentile99;
 	
 	public PortforlioStatistics(String reportingCurrency) {
-		this.breakdownByInstrumentType = new HashMap<>();
+		this.breakdownByInstrumentType = new EnumMap<>(Instrument.INSTRUMENT_TYPE.class);
 		this.breakdownByCurrency = new HashMap<>();
 		this.currentValue = new BigDecimal("0.0");
 		this.percentile95 = new BigDecimal("0.0");
@@ -26,10 +27,8 @@ public class PortforlioStatistics {
 	}
 
 	public void add(BigDecimal amount, Instrument.INSTRUMENT_TYPE type, String currency) {
-		BigDecimal amountInReportingCurrency = new BigDecimal("0.0");
-		if (currency.equals(reportingCurrency)) {
-			amountInReportingCurrency = amount;
-		} else {
+		BigDecimal amountInReportingCurrency = amount;
+		if (!currency.equals(reportingCurrency)) {
 			BigDecimal rate = new BigDecimal("1.0");
 			amountInReportingCurrency = amount.multiply(rate);
 		}

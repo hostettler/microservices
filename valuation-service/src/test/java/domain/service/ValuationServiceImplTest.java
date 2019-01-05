@@ -37,7 +37,7 @@ class ValuationServiceImplTest {
 	 * {@link domain.service.ValuationServiceImpl#valuatePortfolio(java.lang.String)}.
 	 */
 	@Test
-	private void testValuatePortfolio() {
+	public void testValuatePortfolio() {
 		List<Instrument> instruments = getInstruments();
 		when(repository.getAll()).thenReturn(instruments);
 		PortforlioStatistics statistics = valuationServiceImpl.valuatePortfolio("CHF");
