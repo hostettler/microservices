@@ -26,13 +26,13 @@ import domain.model.Instrument;
 @ExtendWith(MockitoExtension.class)
 class InstrumentRepositoryMapTest {
 
-	
-	
+	private static final AtomicLong id = new AtomicLong();
+
 	@InjectMocks
 	private InstrumentRepositoryMap instrumentRepositoryMap;
 
 	@Test
-	void testAdd() {
+	public void testAdd() {
 		instrumentRepositoryMap.clear();
 		Instrument instrument = getRandomInstrument();
 		instrumentRepositoryMap.add(instrument);
@@ -41,7 +41,7 @@ class InstrumentRepositoryMapTest {
 	}
 
 	@Test
-	void testAddDuplicate() {
+	public void testAddDuplicate() {
 		instrumentRepositoryMap.clear();
 		Instrument instrument = getRandomInstrument();
 		instrumentRepositoryMap.add(instrument);
@@ -55,7 +55,7 @@ class InstrumentRepositoryMapTest {
 	}
 
 	@Test
-	void testUpdate() {
+	public void testUpdate() {
 		instrumentRepositoryMap.clear();
 		Instrument instrument = getRandomInstrument();
 		instrumentRepositoryMap.add(instrument);
@@ -70,7 +70,7 @@ class InstrumentRepositoryMapTest {
 	}
 
 	@Test
-	void testUpdateNonExistant() {
+	public void testUpdateNonExistant() {
 		instrumentRepositoryMap.clear();
 		Instrument instrument = getRandomInstrument();
 		instrument.setOriginalCurrency("GBP");
@@ -80,7 +80,7 @@ class InstrumentRepositoryMapTest {
 	}
 
 	@Test
-	void testDelete() {
+	public void testDelete() {
 		instrumentRepositoryMap.clear();
 		Instrument instrument = getRandomInstrument();
 		instrumentRepositoryMap.add(instrument);
@@ -94,7 +94,7 @@ class InstrumentRepositoryMapTest {
 	}
 
 	@Test
-	void testDeleteNonExistant() {
+	public void testDeleteNonExistant() {
 		instrumentRepositoryMap.clear();
 		Instrument instrument = getRandomInstrument();
 		assertThrows(IllegalArgumentException.class, () -> {
@@ -103,7 +103,7 @@ class InstrumentRepositoryMapTest {
 	}
 
 	@Test
-	void testGet() {
+	public void testGet() {
 		instrumentRepositoryMap.clear();
 		Instrument instrument = getRandomInstrument();
 		instrumentRepositoryMap.add(instrument);
@@ -112,7 +112,7 @@ class InstrumentRepositoryMapTest {
 	}
 
 	@Test
-	void testGetNonInexistant() {
+	public void testGetNonInexistant() {
 		instrumentRepositoryMap.clear();
 		Instrument instrument = getRandomInstrument();
 		assertNull(instrumentRepositoryMap.get(instrument.getId()));
@@ -120,7 +120,7 @@ class InstrumentRepositoryMapTest {
 	}
 
 	@Test
-	void testGetAll() {
+	public void testGetAll() {
 		instrumentRepositoryMap.clear();
 		instrumentRepositoryMap.add(getRandomInstrument());
 		instrumentRepositoryMap.add(getRandomInstrument());
@@ -132,8 +132,6 @@ class InstrumentRepositoryMapTest {
 		assertEquals(instruments.size(), 6);
 	}
 
-	
-	private static final AtomicLong id = new AtomicLong();
 	private Instrument getRandomInstrument() {
 
 		Instrument instrument = Instrument.builder().amountInOriginalCurrency(new BigDecimal("3.0")).brokerLei("LEI1")
