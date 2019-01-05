@@ -38,7 +38,10 @@ public class InstrumentRepositoryMap implements InstrumentRepository {
 
 	@Override
 	public void delete(Instrument instrument) {
-		this.instruments.remove(instrument.getId());
+		Instrument i = this.instruments.remove(instrument.getId());
+		if (i == null) {
+			throw new IllegalArgumentException("Cannot update unknown instrument " + instrument.getId());
+		}
 	}
 
 	@Override
