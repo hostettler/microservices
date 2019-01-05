@@ -26,7 +26,7 @@ public class PortforlioStatistics {
 	}
 
 	public void add(BigDecimal amount, Instrument.INSTRUMENT_TYPE type, String currency) {
-		BigDecimal amountInReportingCurrency = new BigDecimal(0.0);
+		BigDecimal amountInReportingCurrency = new BigDecimal("0.0");
 		if (currency.equals(reportingCurrency)) {
 			amountInReportingCurrency = amount;
 		} else {
