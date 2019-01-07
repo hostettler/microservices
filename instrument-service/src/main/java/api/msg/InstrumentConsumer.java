@@ -23,8 +23,12 @@ public class InstrumentConsumer {
 			producer.sendAllInstruments();
 		} else {
 			// interpret the instrument id
-			Long instrumentId = Long.valueOf(message);
-			producer.send(instrumentId);
+			try {
+				Long instrumentId = Long.valueOf(message);
+				producer.send(instrumentId);
+			} catch(NumberFormatException e) {
+				throw new IllegalArgumentException("Message must be wither a numeric instrument identifier or 'all'");
+			}
 		}
 	}
 }
