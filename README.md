@@ -8,10 +8,10 @@
 Boostrap project for the University of Geneva's PInfo lecture.
 
 TODO:
-- Testability
 - Graphical Dashboard
 - Scalability and Redundancy
-- Regulatory Service
 - Security
-- Documentation
+- Regulatory Service
 - API gateway
+- Integration Testing
+- Documentation
