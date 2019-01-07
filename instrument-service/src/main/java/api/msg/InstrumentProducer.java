@@ -35,7 +35,7 @@ public class InstrumentProducer {
 		producer.send("instruments", instrument);			
 	}
 
-	public void send(String instrumentId) {
+	public void send(Long instrumentId) {
 		log.info("Send the state of an instrument to the topic with id " + instrumentId);
 		Instrument instrument = instrumentService.get(instrumentId);
 		if (instrument != null) {

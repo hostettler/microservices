@@ -16,6 +16,13 @@ public class InstrumentServiceImpl implements InstrumentService {
 	@PersistenceContext(unitName = "InstrumentPU")
 	private EntityManager em;
 
+	public InstrumentServiceImpl() {
+	}
+
+	public InstrumentServiceImpl(EntityManager em) {
+		this.em = em;
+	}
+
 	@Override
 	public List<Instrument> getAll() {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -34,10 +41,10 @@ public class InstrumentServiceImpl implements InstrumentService {
 	}
 
 	@Override
-	public Instrument get(String instrumentId) {
+	public Instrument get(Long instrumentId) {
 		return em.find(Instrument.class, instrumentId);
 	}
-	
+
 	@Override
 	public void create(Instrument instrument) {
 		if (instrument.getId() != null) {

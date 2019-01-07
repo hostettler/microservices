@@ -1,45 +1,122 @@
 package domain.service;
 
-import javax.inject.Inject;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.wildfly.swarm.arquillian.DefaultDeployment;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(Arquillian.class)
-@DefaultDeployment(type = DefaultDeployment.Type.JAR)
+import domain.model.Bond;
+import domain.model.Instrument;
+import eu.drus.jpa.unit.api.ApplyScriptsBefore;
+import eu.drus.jpa.unit.api.Cleanup;
+import eu.drus.jpa.unit.api.CleanupPhase;
+import eu.drus.jpa.unit.api.JpaUnit;
+
+@ExtendWith(JpaUnit.class)
+@ExtendWith(MockitoExtension.class)
+@Cleanup(phase = CleanupPhase.BEFORE)
+@ApplyScriptsBefore("test-data/instruments_test_data.sql")
 class InstrumentServiceImplTest {
 
-	@Inject
+	@Spy
+	@PersistenceContext(unitName = "InstrumentPUTest")
+	EntityManager em;
+
+	@InjectMocks
 	private InstrumentServiceImpl instrumentService;
 
-//	@Test
-//	void testGetAll() {
-//		instrumentService.getAll();
-//	}
-
-	@Deployment
-	public static WebArchive createDeployment() {
-		return ShrinkWrap.create(WebArchive.class).addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+	@Test
+	@Cleanup(phase = CleanupPhase.BEFORE)
+	@ApplyScriptsBefore("test-data/instruments_test_data.sql")
+	void testGetAll() {
+		List<Instrument> instruments = instrumentService.getAll();
+		assertEquals(229, instruments.size());
 	}
-//	@Test
-//	void testUpdate() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testGet() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testCreate() {
-//		fail("Not yet implemented");
-//	}
 
+	@Test
+	void testUpdate() {
+		Instrument instrument = instrumentService.getAll().get(0);
+		assertNotNull(instrument);
+		Long id = instrument.getId();
+		instrument.setOriginalCurrency("XXX");
+		instrumentService.update(instrument);
+		instrument = instrumentService.get(id);
+		assertEquals("XXX", instrument.getOriginalCurrency());
+	}
+
+	@Test
+	void testUpdateNonExistant() {
+		Instrument i = new Instrument() {
+			@Override
+			public Long getId() {
+				return Long.MAX_VALUE;
+			}
+		};
+		assertThrows(IllegalArgumentException.class, () -> {
+			instrumentService.update(i);
+		});
+	}
+
+	@Test
+	void testGet() {
+		Instrument instrument = instrumentService.getAll().get(0);
+		assertNotNull(instrument);
+		Long id = instrument.getId();
+		Instrument getInstrument = instrumentService.get(id);
+		assertEquals(instrument.getOriginalCurrency(), getInstrument.getOriginalCurrency());
+	}
+
+	@Test
+	void testGetNonExistant() {
+		List<Instrument> instruments = instrumentService.getAll();
+		System.out.println("testGetNonExistant:" + instruments.size());
+
+		assertNull(instrumentService.get(Long.MAX_VALUE));
+	}
+
+	@Test
+	@Cleanup(phase = CleanupPhase.BEFORE)
+	void testCreate() {
+		Instrument instrument = getRandomInstrument();
+		instrumentService.create(instrument);
+		assertNotNull(instrument.getId());
+	}
+
+
+	@Test
+	@Cleanup(phase = CleanupPhase.BEFORE)
+	void testCreateDuplicate() {
+		Instrument instrument = getRandomInstrument();
+		instrumentService.create(instrument);
+		assertThrows(IllegalArgumentException.class, () -> {
+			instrumentService.create(instrument);
+		});
+	}
+
+	private Instrument getRandomInstrument() {
+		Bond b = new Bond();
+		b.setBrokerLei(UUID.randomUUID().toString());
+		b.setCounterpartyLei(UUID.randomUUID().toString());
+		b.setAmountInOriginalCurrency(new BigDecimal("0.0"));
+		b.setOriginalCurrency("USD");
+		b.setValueDate(new Date());
+		b.setMaturityDate(new Date());
+		b.setIsin(UUID.randomUUID().toString());
+		b.setQuantity(Long.valueOf(Math.round(Math.random()*1000)));
+		return b;
+	}
 }

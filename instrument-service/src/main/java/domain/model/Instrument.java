@@ -28,7 +28,7 @@ public abstract class Instrument {
 	@Id
 	@SequenceGenerator(name = "INSTRUMENT_SEQ", sequenceName = "INSTRUMENT_SEQ")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "INSTRUMENT_SEQ")	
-	private String id;
+	private Long id;
 
 	@NotNull
 	private String brokerLei;

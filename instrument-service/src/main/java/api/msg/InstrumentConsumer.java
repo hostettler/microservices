@@ -12,7 +12,7 @@ import lombok.extern.java.Log;
 @KafkaConfig(bootstrapServers = "#{thorntail.kafka-configuration.host}:#{thorntail.kafka-configuration.port}")
 @Log
 public class InstrumentConsumer {
-	
+
 	@Inject
 	private InstrumentProducer producer;
 
@@ -22,7 +22,9 @@ public class InstrumentConsumer {
 		if ("all".equals(message)) {
 			producer.sendAllInstruments();
 		} else {
-			producer.send(message);
+			// interpret the instrument id
+			Long instrumentId = Long.valueOf(message);
+			producer.send(instrumentId);
 		}
 	}
 }

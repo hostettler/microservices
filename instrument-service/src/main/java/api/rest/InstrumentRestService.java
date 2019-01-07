@@ -44,7 +44,7 @@ public class InstrumentRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Get all the instruments",
     notes = "Instruments are specialized and thus might contain more fields than the one of the base class.")
-	public Instrument get(@PathParam("id") String instrumentId) {
+	public Instrument get(@PathParam("id") Long instrumentId) {
 		return instrumentService.get(instrumentId);
 	}
 	

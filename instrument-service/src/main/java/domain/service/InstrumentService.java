@@ -12,6 +12,6 @@ public interface InstrumentService {
 
 	void create(Instrument instrument);
 
-	Instrument get(String instrumentId);
+	Instrument get(Long instrumentId);
 
 }
