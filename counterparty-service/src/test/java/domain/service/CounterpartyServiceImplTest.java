@@ -46,7 +46,7 @@ class CounterpartyServiceImplTest {
 	private List<Counterparty> getCounterparties() {
 
 		List<Counterparty> counterparties = new ArrayList<>();
-		long numberOfCpty = Math.round((Math.random() * 1000));
+		long numberOfCpty = Math.round((Math.random() * 10));
 		for (int i = 0; i < numberOfCpty; i++) {
 			counterparties.add(getRandomCounterparty());
 		}
