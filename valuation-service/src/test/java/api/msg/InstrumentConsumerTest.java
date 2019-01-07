@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import domain.model.Instrument;
+import domain.model.Instrument.INSTRUMENT_TYPE;
 import domain.service.InstrumentRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -48,11 +49,21 @@ class InstrumentConsumerTest {
 	}
 
 	private Instrument getRandomInstrument() {
-		Instrument instrument = Instrument.builder().amountInOriginalCurrency(new BigDecimal("3.0")).brokerLei("LEI1")
-				.counterpartyLei("LEI2").dealDate(new Date()).direction("Call").id(String.valueOf(id.incrementAndGet()))
-				.instrumentType(Instrument.INSTRUMENT_TYPE.WARRANT.getCode()).isin("ISIN1").maturityDate(new Date())
-				.originalCurrency("USD").quantity(1000l).strikeAmount(new BigDecimal("30.0")).tracker("TRA")
-				.valueDate(new Date()).build();
+		Instrument instrument = new Instrument();
+		instrument.setAmountInOriginalCurrency(new BigDecimal("2.0"));
+		instrument.setBrokerLei("LEI1");
+		instrument.setCounterpartyLei("LEI2");
+		instrument.setDealDate(new Date());
+		instrument.setDirection("Call");
+		instrument.setId(String.valueOf(id.incrementAndGet()));
+		instrument.setInstrumentType(INSTRUMENT_TYPE.WARRANT.getCode());
+		instrument.setIsin("ISIN1");
+		instrument.setMaturityDate(new Date());
+		instrument.setOriginalCurrency("USD");
+		instrument.setQuantity(1000l);
+		instrument.setStrikeAmount(new BigDecimal("30.0"));
+		instrument.setTracker("TRA");
+		instrument.setValueDate(new Date());
 		return instrument;
 	}
 }

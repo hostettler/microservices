@@ -8,7 +8,9 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import domain.model.Instrument;
+import domain.model.Instrument.INSTRUMENT_TYPE;
 import domain.model.PortforlioStatistics;
 
 /**
@@ -25,6 +28,8 @@ import domain.model.PortforlioStatistics;
  */
 @ExtendWith(MockitoExtension.class)
 class ValuationServiceImplTest {
+
+	private static final AtomicLong id = new AtomicLong();
 
 	@InjectMocks
 	private ValuationServiceImpl valuationServiceImpl;
@@ -52,13 +57,29 @@ class ValuationServiceImplTest {
 
 	private List<Instrument> getInstruments() {
 		List<Instrument> instruments = new ArrayList<>();
-		instruments.add(Instrument.builder().amountInOriginalCurrency(new BigDecimal("1.0"))
-				.instrumentType(Instrument.INSTRUMENT_TYPE.BOND.getCode()).originalCurrency("CHF").build());
-		instruments.add(Instrument.builder().amountInOriginalCurrency(new BigDecimal("2.0"))
-				.instrumentType(Instrument.INSTRUMENT_TYPE.BOND.getCode()).originalCurrency("USD").build());
-		instruments.add(Instrument.builder().amountInOriginalCurrency(new BigDecimal("2.0"))
-				.instrumentType(Instrument.INSTRUMENT_TYPE.STOCK.getCode()).originalCurrency("USD").build());
+		instruments.add(getInstrument(INSTRUMENT_TYPE.BOND, "CHF", new BigDecimal("1.0")));
+		instruments.add(getInstrument(INSTRUMENT_TYPE.BOND, "USD", new BigDecimal("2.0")));
+		instruments.add(getInstrument(INSTRUMENT_TYPE.STOCK, "USD", new BigDecimal("2.0")));
 		return instruments;
+	}
+
+	private Instrument getInstrument(Instrument.INSTRUMENT_TYPE type, String currency, BigDecimal amount) {
+		Instrument instrument = new Instrument();
+		instrument.setAmountInOriginalCurrency(amount);
+		instrument.setBrokerLei("LEI1");
+		instrument.setCounterpartyLei("LEI2");
+		instrument.setDealDate(new Date());
+		instrument.setDirection("Call");
+		instrument.setId(String.valueOf(id.incrementAndGet()));
+		instrument.setInstrumentType(type.getCode());
+		instrument.setIsin("ISIN1");
+		instrument.setMaturityDate(new Date());
+		instrument.setOriginalCurrency(currency);
+		instrument.setQuantity(1000l);
+		instrument.setStrikeAmount(new BigDecimal("30.0"));
+		instrument.setTracker("TRA");
+		instrument.setValueDate(new Date());
+		return instrument;
 	}
 
 }

@@ -16,7 +16,6 @@ import lombok.Data;
  *
  */
 @Data
-@Builder
 public class Instrument {
 
 	private String id;
