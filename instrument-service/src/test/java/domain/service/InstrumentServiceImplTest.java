@@ -21,15 +21,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import domain.model.Bond;
 import domain.model.Instrument;
-import eu.drus.jpa.unit.api.ApplyScriptsBefore;
-import eu.drus.jpa.unit.api.Cleanup;
-import eu.drus.jpa.unit.api.CleanupPhase;
 import eu.drus.jpa.unit.api.JpaUnit;
 
 @ExtendWith(JpaUnit.class)
 @ExtendWith(MockitoExtension.class)
-@Cleanup(phase = CleanupPhase.BEFORE)
-@ApplyScriptsBefore("test-data/instruments_test_data.sql")
 class InstrumentServiceImplTest {
 
 	@Spy
@@ -40,15 +35,21 @@ class InstrumentServiceImplTest {
 	private InstrumentServiceImpl instrumentService;
 
 	@Test
-	@Cleanup(phase = CleanupPhase.BEFORE)
-	@ApplyScriptsBefore("test-data/instruments_test_data.sql")
 	void testGetAll() {
 		List<Instrument> instruments = instrumentService.getAll();
-		assertEquals(229, instruments.size());
+		int size = instruments.size();
+		
+		instrumentService.create(getRandomInstrument());
+		instrumentService.create(getRandomInstrument());
+		instrumentService.create(getRandomInstrument());
+		instrumentService.create(getRandomInstrument());
+		
+		assertEquals(size + 4, instrumentService.getAll().size());
 	}
 
 	@Test
 	void testUpdate() {
+		instrumentService.create(getRandomInstrument());
 		Instrument instrument = instrumentService.getAll().get(0);
 		assertNotNull(instrument);
 		Long id = instrument.getId();
@@ -73,6 +74,7 @@ class InstrumentServiceImplTest {
 
 	@Test
 	void testGet() {
+		instrumentService.create(getRandomInstrument());
 		Instrument instrument = instrumentService.getAll().get(0);
 		assertNotNull(instrument);
 		Long id = instrument.getId();
@@ -89,7 +91,6 @@ class InstrumentServiceImplTest {
 	}
 
 	@Test
-	@Cleanup(phase = CleanupPhase.BEFORE)
 	void testCreate() {
 		Instrument instrument = getRandomInstrument();
 		instrumentService.create(instrument);
@@ -98,7 +99,6 @@ class InstrumentServiceImplTest {
 
 
 	@Test
-	@Cleanup(phase = CleanupPhase.BEFORE)
 	void testCreateDuplicate() {
 		Instrument instrument = getRandomInstrument();
 		instrumentService.create(instrument);
