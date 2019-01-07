@@ -16,10 +16,10 @@ public class InstrumentServiceImpl implements InstrumentService {
 	@PersistenceContext(unitName = "InstrumentPU")
 	private EntityManager em;
 
-	public InstrumentServiceImpl() {
-	}
+	public InstrumentServiceImpl() { }
 
 	public InstrumentServiceImpl(EntityManager em) {
+		this();
 		this.em = em;
 	}
 
