@@ -15,22 +15,7 @@
 
 	<properties>
 		<container.folder>${project.build.directory}/wildfly-${wildfly.version}</container.folder>
-		<jpa-unit.version>0.4.0</jpa-unit.version>
-		<junit.platform.version>1.1.1</junit.platform.version>
-		<junit.jupiter.version>5.1.1</junit.jupiter.version>
 	</properties>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.github.dadrus.jpa-unit</groupId>
-				<artifactId>jpa-unit-bom</artifactId>
-				<version>0.5.0</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
@@ -116,42 +101,6 @@
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
 		</dependency>
-
-
-		<dependency>
-			<groupId>com.github.dadrus.jpa-unit</groupId>
-			<artifactId>jpa-unit-cdi</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.deltaspike.modules</groupId>
-			<artifactId>deltaspike-test-control-module-impl</artifactId>
-			<version>1.9.0</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>io.thorntail</groupId>
-				<artifactId>thorntail-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>package</id>
-					</execution>
-					<execution>
-						<id>start</id>
-					</execution>
-					<execution>
-						<id>stop</id>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 </project>
