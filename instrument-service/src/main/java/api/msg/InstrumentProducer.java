@@ -27,7 +27,6 @@ public class InstrumentProducer {
 		for (Instrument instrument : instrumentService.getAll()) {
 			producer.send("instruments", instrument);	
 		}
-		
 	}
 
 	public void send(Instrument instrument) {

@@ -55,7 +55,14 @@ class InstrumentProducerTest {
 		when(instrumentService.get(instrument.getId())).thenReturn(instrument);
 		producer.send(instrument.getId());
 		verify(kafkaProducer, times(1)).send("instruments", instrument);
+	}
 
+	@Test
+	void testSendLongNull() {
+		Instrument instrument = getRandomInstrument();
+		when(instrumentService.get(instrument.getId())).thenReturn(null);
+		producer.send(instrument.getId());
+		verify(kafkaProducer, times(0)).send("instruments", instrument);
 	}
 
 	private List<Instrument> getRandomInstrumentCollection() {
