@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import domain.model.Instrument;
+import domain.model.Instrument.INSTRUMENT_TYPE;
 
 /**
  * @author Steve.Hostettler
@@ -109,6 +110,7 @@ class InstrumentRepositoryMapTest {
 		instrumentRepositoryMap.add(instrument);
 		Instrument returnedInstrument = instrumentRepositoryMap.get(instrument.getId());
 		assertEquals(instrument, returnedInstrument);
+		assertEquals(INSTRUMENT_TYPE.WARRANT.getDescription(), returnedInstrument.getType().getDescription());
 	}
 
 	@Test
