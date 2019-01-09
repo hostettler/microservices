@@ -53,4 +53,10 @@ public class InstrumentServiceImpl implements InstrumentService {
 		em.persist(instrument);
 	}
 
+	@Override
+	public List<? extends Instrument> testSonarRules() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
