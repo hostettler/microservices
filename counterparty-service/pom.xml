@@ -12,6 +12,10 @@
 	<artifactId>counterparty-service</artifactId>
 	<name>Counterparty Service</name>
 	<packaging>war</packaging>
+	
+	<properties>
+		<skip-docker-build>false</skip-docker-build>
+	</properties>
 
 	<dependencies>
 		<dependency>

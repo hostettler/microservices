@@ -16,7 +16,8 @@ public class InstrumentServiceImpl implements InstrumentService {
 	@PersistenceContext(unitName = "InstrumentPU")
 	private EntityManager em;
 
-	public InstrumentServiceImpl() { }
+	public InstrumentServiceImpl() {
+	}
 
 	public InstrumentServiceImpl(EntityManager em) {
 		this();
@@ -52,11 +53,4 @@ public class InstrumentServiceImpl implements InstrumentService {
 		}
 		em.persist(instrument);
 	}
-
-	@Override
-	public List<? extends Instrument> testSonarRules() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

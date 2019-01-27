@@ -160,6 +160,8 @@ target/
 *.ipr
 .idea/
 
+*.code-workspace
+
 # eclipse project file
 .settings/
 .classpath
@@ -230,3 +232,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# kafka
+zk-single-kafka-single/

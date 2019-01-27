@@ -13,6 +13,10 @@
 	<name>Regulatory Reporting Service</name>
 	<packaging>war</packaging>
 
+	<properties>
+		<skip-docker-build>false</skip-docker-build>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>io.thorntail</groupId>

@@ -15,6 +15,7 @@
 
 	<properties>
 		<container.folder>${project.build.directory}/wildfly-${wildfly.version}</container.folder>
+		<skip-docker-build>false</skip-docker-build>
 	</properties>
 
 	<dependencies>

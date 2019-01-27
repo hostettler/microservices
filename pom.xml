@@ -19,6 +19,8 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<skip-docker-build>true</skip-docker-build>
+		<skip-docker-compose>false</skip-docker-compose>
 	</properties>
 
 
@@ -182,6 +184,11 @@
 					<artifactId>thorntail-maven-plugin</artifactId>
 					<version>${version.thorntail}</version>
 				</plugin>
+				<plugin>
+					<groupId>io.fabric8</groupId>
+					<artifactId>fabric8-maven-plugin</artifactId>
+					<version>4.0.0-M2</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 
@@ -221,4 +228,68 @@
 			</plugin>
 		</plugins>
 	</build>
+
+
+	<profiles>
+		<profile>
+			<id>docker-thorntail</id>
+			<activation>
+				<property>
+					<name>docker-build</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>io.fabric8</groupId>
+						<artifactId>fabric8-maven-plugin</artifactId>
+
+						<configuration>
+							<skip>${skip-docker-build}</skip>
+							<useColor>true</useColor>
+							<images>
+								<image>
+									<name>%g/%a:%l</name>
+									<run>
+										<ports>
+											<port>8080:8080</port>
+										</ports>
+									</run>
+									<build>
+										<from>java:openjdk-8-jdk</from>
+										<ports>
+											<port>8080</port>
+										</ports>
+										<assembly>
+											<basedir>/</basedir>
+											<inline>
+												<files>
+													<file>
+														<source>${project.build.directory}/${project.build.finalName}-thorntail.jar</source>
+														<outputDirectory>/opt</outputDirectory>
+													</file>
+												</files>
+											</inline>
+										</assembly>
+										<entryPoint>
+											<shell>java -Djava.net.preferIPv4Stack=true -jar /opt/${project.build.finalName}-thorntail.jar</shell>
+										</entryPoint>
+									</build>
+								</image>
+							</images>
+						</configuration>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>build</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 </project>
