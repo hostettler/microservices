@@ -9,7 +9,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Dashboard',
     icon: 'nb-bar-chart',
     link: '/pages/fi-dashboard',
-    home: true,
+    home: true
   }, 
   {
     title: 'Master Data',
@@ -31,7 +31,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Instruments',
-    icon: 'nb-bar-chart',
+    icon: 'ion-ios-pricetags',
     children: [
       {
         title: 'Search',
@@ -45,53 +45,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Configuration',
-    icon: 'nb-locked',
-    children: [
-      {
-        title: 'Search',
-        link: '/pages/charts/echarts',
-      },
-      {
-        title: 'Update',
-        link: '/pages/charts/echarts',
-      },
-    ]
-  },
-  {
-    title: 'FEATURES',
-    group: true,
-  },
-  {
-    title: 'Charts',
-    icon: 'nb-bar-chart',
-    children: [
-      {
-        title: 'Echarts',
-        link: '/pages/charts/echarts',
-      },
-      {
-        title: 'Charts.js',
-        link: '/pages/charts/chartjs',
-      },
-      {
-        title: 'D3',
-        link: '/pages/charts/d3',
-      },
-    ],
-  },
-  {
-    title: 'Tables',
-    icon: 'nb-tables',
-    children: [
-      {
-        title: 'Smart Table',
-        link: '/pages/tables/smart-table',
-      },
-    ],
-  },
-  {
-    title: 'Auth',
-    icon: 'nb-locked',
+    icon: 'nb-gear',
     children: [
       {
         title: 'Login',

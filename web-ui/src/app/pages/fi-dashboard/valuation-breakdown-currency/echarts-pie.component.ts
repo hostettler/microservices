@@ -25,7 +25,15 @@ export class ValuationBreakdownCurrencyPieComponent implements AfterViewInit, On
         color: [colors.warningLight, colors.infoLight, colors.dangerLight, colors.successLight, colors.primaryLight],
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)',
+          formatter: function(params) {
+            let serie:string = params.seriesName;
+            let type:string = params.name;
+            let amount:number = params.value;
+            let percentage:number = params.percent;
+            let formattedAmount:string = amount.toLocaleString();
+            let output:string =  '' + serie + ' <br/>' + type + ' : ' + formattedAmount + ' ('+ percentage + '%)';
+            return output;
+          }
         },
         legend: {
           orient: 'vertical',

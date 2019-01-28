@@ -21,7 +21,7 @@ export class FIDashboardComponent implements OnDestroy {
 
   portfolioValuation: CardSettings = {
     title: 'Portfolio Valuation',
-    iconClass: 'logo-usd',
+    iconClass: 'ion-social-usd',
     type: 'primary',
     value: ''
   };

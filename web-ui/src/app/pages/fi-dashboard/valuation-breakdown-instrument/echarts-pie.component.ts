@@ -26,12 +26,11 @@ export class ValuationBreakdownInstrumentPieComponent implements AfterViewInit, 
         tooltip: {
           trigger: 'item',
           formatter:   function(params) {
-            console.info(params)
             let serie:string = params.seriesName;
-            let type:string = params[1];
+            let type:string = params.name;
             let amount:number = params.value;
-            let percentage:number = params[3];
-            let formattedAmount:number = amount;//.toLocaleString();
+            let percentage:number = params.percent;
+            let formattedAmount:string = amount.toLocaleString();
             let output:string =  '' + serie + ' <br/>' + type + ' : ' + formattedAmount + ' ('+ percentage + '%)';
             return output;
           }
