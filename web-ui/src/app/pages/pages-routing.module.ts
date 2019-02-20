@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { PagesComponent } from './pages.component';
 import { FIDashboardComponent } from './fi-dashboard/fi-dashboard.component';
 
+
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -15,9 +16,6 @@ const routes: Routes = [{
     path: '',
     redirectTo: 'fi-dashboard',
     pathMatch: 'full',
-  }, {
-    path: '**',
-    component: NotFoundComponent,
   }],
 }];
 
