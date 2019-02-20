@@ -1,0 +1,140 @@
+version: "2.1"
+
+services:
+
+   kong-database:
+    image: postgres:10
+    container_name: kong-database
+    hostname: kong-database
+    networks:
+     - backend-network
+    environment:
+      POSTGRES_USER: kong
+      POSTGRES_PASSWORD: kong
+      POSTGRES_DB: kongdb
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "kong", "-d", "kongdb"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    volumes:
+      - pgdata-kong:/var/lib/postgresql/data
+    restart: on-failure
+    stdin_open: true
+    tty: true
+
+   kong-init-database:
+    image: kong:latest
+    container_name: kong-init-database
+    networks:
+     - backend-network
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-database
+      KONG_PG_PASSWORD: kong
+      KONG_PG_USER: kong
+      KONG_PG_DATABASE: kongdb
+    command: kong migrations bootstrap
+    depends_on:
+       kong-database:
+          condition: service_healthy
+
+   iam-db:
+    image: postgres:10
+    container_name: iam-db
+    hostname: iam-db
+    networks:
+     - backend-network        
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: keycloakdb
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "admin", "-d", "keycloakdb"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    restart: on-failure
+    stdin_open: true
+    tty: true      
+    volumes:
+      - pgdata-iam:/var/lib/postgresql/data
+
+     
+   iam:
+     container_name: iam
+     hostname: iam
+     networks:
+      - gateway-network
+      - backend-network       
+     build: .
+     restart: on-failure
+     ports:
+       - 8080:8080     
+     environment:
+       - KEYCLOAK_USER=admin
+       - KEYCLOAK_PASSWORD=password
+       - DB_VENDOR=postgres
+       - DB_USER=admin
+       - DB_PASSWORD=password
+       - DB_ADDR=iam-db
+       - DB_PORT=5432
+       - DB_DATABASE=keycloakdb
+       - PROXY_ADDRESS_FORWARDING=true
+     depends_on:
+        iam-db :
+          condition: service_healthy
+
+   api-gateway:
+    build: .
+    container_name:  api-gateway
+    hostname:  api-gateway
+    networks:
+     - gateway-network
+     - backend-network
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-database
+      KONG_PROXY_ACCESS_LOG: "/dev/stdout"
+      KONG_ADMIN_ACCESS_LOG: "/dev/stdout"
+      KONG_PROXY_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
+      KONG_PG_PASSWORD: kong
+      KONG_PG_USER: kong
+      KONG_PG_DATABASE: kongdb
+      KONG_PLUGINS: "bundled,oidc"
+    depends_on:
+      - kong-init-database
+    ports:
+     - 8000:8000
+     - 8443:8443
+     - 8001:8001
+     - 8444:8444
+
+   api-gateway-ui:
+    image: "pantsel/konga:latest"
+    container_name:  api-gateway-ui
+    restart: always
+    hostname: api-gateway-ui
+    networks:
+     - gateway-network    
+    environment:
+      NODE_ENV: production
+    depends_on:
+      - api-gateway
+    links:
+       - iam
+    ports:
+      - 1337:1337
+                       
+volumes:
+   pgdata-kong:
+   pgdata-iam:
+   
+networks:
+  gateway-network:
+     driver: bridge     
+  backend-network:
+    external:
+      name: micro-service_backend-network

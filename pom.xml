@@ -232,7 +232,7 @@
 
 	<profiles>
 		<profile>
-			<id>docker-thorntail</id>
+			<id>docker</id>
 			<activation>
 				<property>
 					<name>docker-build</name>
@@ -243,10 +243,11 @@
 					<plugin>
 						<groupId>io.fabric8</groupId>
 						<artifactId>fabric8-maven-plugin</artifactId>
-
+					
 						<configuration>
 							<skip>${skip-docker-build}</skip>
 							<useColor>true</useColor>
+							<dockerHost>tcp://localhost:2375</dockerHost>
 							<images>
 								<image>
 									<name>%g/%a:%l</name>

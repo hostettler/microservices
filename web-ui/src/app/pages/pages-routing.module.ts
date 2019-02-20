@@ -11,6 +11,13 @@ const routes: Routes = [{
   {
     path: 'fi-dashboard',
     component: FIDashboardComponent,
+  }, {
+    path: '',
+    redirectTo: 'fi-dashboard',
+    pathMatch: 'full',
+  }, {
+    path: '**',
+    component: NotFoundComponent,
   }],
 }];
 
