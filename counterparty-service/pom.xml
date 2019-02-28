@@ -12,7 +12,7 @@
 	<artifactId>counterparty-service</artifactId>
 	<name>Counterparty Service</name>
 	<packaging>war</packaging>
-	
+
 	<properties>
 		<skip-docker-build>false</skip-docker-build>
 	</properties>
@@ -29,7 +29,7 @@
 		<dependency>
 			<groupId>io.thorntail</groupId>
 			<artifactId>swagger</artifactId>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>io.thorntail</groupId>
 			<artifactId>cdi</artifactId>
@@ -99,5 +99,5 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
+	
 </project>
