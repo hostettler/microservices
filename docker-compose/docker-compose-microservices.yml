@@ -43,14 +43,14 @@ services:
       - zookeeper
 
   #The counterparty service provides counterparty data, it is also the single version of truth for these data
-#   counterparty-service:
-#     container_name: counterparty-service    
-#     image: unige/counterparty-service:latest
-#     hostname: counterparty-service
-#     networks:
-#       - backend-network    
-#     ports:
-#       - "10080:8080"
+  counterparty-service:
+    container_name: counterparty-service    
+    image: unige/counterparty-service:latest
+    hostname: counterparty-service
+    networks:
+      - backend-network    
+    ports:
+      - "10080:8080"
 
   instrument-service:
     container_name: instrument-service    
