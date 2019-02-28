@@ -1,6 +1,7 @@
 package domain.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +35,18 @@ class CounterpartyServiceImplTest {
 
 	@Test
 	void testGetAll() {
-		int size = counterpartyServiceImpl.getAll().size();
-		List<Counterparty> counterparties = getCounterparties();
-		
-		for (Counterparty c : counterparties) {
-			em.persist(c);
-		}
-		assertEquals(size + counterparties.size(), counterpartyServiceImpl.getAll().size());
+		int size = initDataStore();
+		assertEquals(size, counterpartyServiceImpl.getAll().size());
+	}
+
+	@Test
+	void testGet() {
+		initDataStore();
+		List<Counterparty> counterparties = counterpartyServiceImpl.getAll();
+		String lei = counterparties.get(0).getLei();
+		Counterparty cpty= counterpartyServiceImpl.get(lei);
+		assertEquals(counterparties.get(0).getLei(), cpty.getLei());
+		assertEquals(counterparties.get(0).getLegalAddress(), cpty.getLegalAddress());
 	}
 
 	private List<Counterparty> getCounterparties() {
@@ -52,6 +58,15 @@ class CounterpartyServiceImplTest {
 		}
 		return counterparties;
 
+	}
+
+	private int initDataStore() {
+		int size = counterpartyServiceImpl.getAll().size();
+		List<Counterparty> counterparties = getCounterparties();	
+		for (Counterparty c : counterparties) {
+			em.persist(c);
+		}
+		return size + counterparties.size();
 	}
 
 	private Counterparty getRandomCounterparty() {

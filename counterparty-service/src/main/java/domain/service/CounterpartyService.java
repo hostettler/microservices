@@ -7,5 +7,6 @@ import domain.model.Counterparty;
 public interface CounterpartyService {
 
 	List<Counterparty> getAll();
+	Counterparty get(String lei);
 
 }

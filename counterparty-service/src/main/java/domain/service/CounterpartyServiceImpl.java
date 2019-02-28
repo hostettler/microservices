@@ -23,4 +23,9 @@ public class CounterpartyServiceImpl implements CounterpartyService {
 		criteria.from(Counterparty.class);
 		return em.createQuery( criteria ).getResultList();
 	}
+	
+	@Override
+	public Counterparty get(String lei) {
+		return em.find(Counterparty.class, lei);
+	}
 }

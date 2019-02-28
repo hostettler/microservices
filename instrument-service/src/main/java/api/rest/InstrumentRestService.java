@@ -42,7 +42,7 @@ public class InstrumentRestService {
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Get all the instruments",
+	@ApiOperation(value = "Get a specifc instrument",
     notes = "Instruments are specialized and thus might contain more fields than the one of the base class.")
 	public Instrument get(@PathParam("id") Long instrumentId) {
 		return instrumentService.get(instrumentId);
@@ -51,7 +51,7 @@ public class InstrumentRestService {
 	
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Get all the instruments",
+	@ApiOperation(value = "Update a given instrument",
     notes = "Instruments are specialized and thus might contain more fields than the one of the base class.")
 	public void upadte(Instrument instrument) {
 		instrumentService.update(instrument);
@@ -60,7 +60,7 @@ public class InstrumentRestService {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Get all the instruments",
+	@ApiOperation(value = "Create a new instrument",
     notes = "Instruments are specialized and thus might contain more fields than the one of the base class.")
 	public void create(Instrument instrument) {
 		instrumentService.create(instrument);
@@ -71,7 +71,7 @@ public class InstrumentRestService {
 	@POST
 	@Path("propagateAllInstruments")
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Get all the instruments",
+	@ApiOperation(value = "Propagate all instruments to the bus to sync up downstream services",
     notes = "Instruments are specialized and thus might contain more fields than the one of the base class.")
 	public void propagateAllInstruments() {
 		instrumentProducer.sendAllInstruments();

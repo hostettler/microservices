@@ -46,7 +46,7 @@
 							<dockerHost>${dockerHost}</dockerHost>						
 							<images>
 								<image>
-									<name>test%g/%a:%l</name>
+									<name>%g/%a:%l</name>
 									<build>										
 										<dockerFileDir>.</dockerFileDir>
 										<assembly>
@@ -54,7 +54,8 @@
 											<inline>
 												<files>
 													<file>
-														<source>${project.build.directory}/${project.build.finalName}.jar</source>														<outputDirectory>/tmp</outputDirectory>
+														<source>${project.build.directory}/${project.build.finalName}.jar</source>
+														<outputDirectory>/tmp</outputDirectory>
 													</file>
 												</files>
 											</inline>										
