@@ -75,7 +75,10 @@
 			<version>5.0.10.Final</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>io.thorntail</groupId>
+			<artifactId>logstash</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>com.github.dadrus.jpa-unit</groupId>
@@ -99,5 +102,5 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
+
 </project>

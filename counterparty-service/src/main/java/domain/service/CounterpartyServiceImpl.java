@@ -9,8 +9,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
 import domain.model.Counterparty;
+import lombok.extern.java.Log;
 
 @ApplicationScoped
+@Log
 public class CounterpartyServiceImpl implements CounterpartyService {
 
     @PersistenceContext(unitName = "CounterpartyPU")
@@ -18,6 +20,7 @@ public class CounterpartyServiceImpl implements CounterpartyService {
     
 	@Override
 	public List<Counterparty> getAll() {
+		log.info("retrieve all counterparties");
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Counterparty> criteria = builder.createQuery( Counterparty.class );
 		criteria.from(Counterparty.class);
