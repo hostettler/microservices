@@ -1,4 +1,4 @@
-swarm:
+thorntail:
   datasources:
     data-sources:
       CounterpartyDS:
@@ -11,7 +11,3 @@ swarm:
         driver-class-name: org.h2.Driver
         xa-datasource-name: org.h2.jdbcx.JdbcDataSource
         driver-module-name: com.h2database.h2
-    logstash:
-      hostname: localhost
-      port: 9300
-      level: INFO

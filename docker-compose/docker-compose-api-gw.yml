@@ -23,20 +23,58 @@ services:
     stdin_open: true
     tty: true
 
-   kong-init-database:
-    image: kong:latest
-    container_name: kong-init-database
+   api-gateway:
+    image: unige/api-gateway
+    container_name:  api-gateway
+    hostname:  api-gateway
     networks:
+     - frontend-network
+     - gateway-network
      - backend-network
+    command: >
+       sh -c "kong migrations up && sh /docker-entrypoint.sh kong docker-start --v --nginx-conf /usr/local/kong/template/nginx-custom-static-sso.template"       
+    healthcheck:
+      test: ["CMD", "curl", "-X", "GET", "http://localhost:8001"]
+      interval: 30s
+      timeout: 15s
+      retries: 15        
     environment:
       KONG_DATABASE: postgres
       KONG_PG_HOST: kong-database
+      KONG_PROXY_ACCESS_LOG: "/dev/stdout"
+      KONG_ADMIN_ACCESS_LOG: "/dev/stdout"
+      KONG_PROXY_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_ERROR_LOG: "/dev/stderr"
+      KONG_PROXY_LISTEN: "0.0.0.0:80, 0.0.0.0:443 ssl"
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
       KONG_PG_PASSWORD: kong
       KONG_PG_USER: kong
       KONG_PG_DATABASE: kongdb
-    command: kong migrations bootstrap
+      KONG_PLUGINS: "bundled,oidc"
+    volumes:      
+      - ../web-ui/dist:/www/data:ro
+   ##Assuming we want to put our own certificates, we should put them in /usr/local/kong/ssl/certs
+      - ./certs:/usr/local/kong/ssl/certs      
+    ports:
+     - 80:80
+     - 443:443
+     - 8001:8001
+     - 8444:8444
     depends_on:
        kong-database:
+          condition: service_healthy
+
+   api-gateway-init:
+    image: unige/api-gateway
+    container_name:  api-gateway-init
+    hostname:  api-gateway-init
+    networks:
+     - gateway-network
+     - backend-network
+    command: >
+       sh -c "/tmp/config-kong.sh"  
+    depends_on:
+       api-gateway:
           condition: service_healthy
 
    iam-db:
@@ -59,15 +97,15 @@ services:
     tty: true      
     volumes:
       - pgdata-iam:/var/lib/postgresql/data
-
-     
+ 
+  
    iam:
+     image: jboss/keycloak:4.8.3.Final
      container_name: iam
      hostname: iam
      networks:
       - gateway-network
       - backend-network       
-     build: .
      restart: on-failure
      ports:
        - 8080:8080     
@@ -84,57 +122,16 @@ services:
      depends_on:
         iam-db :
           condition: service_healthy
-
-   api-gateway:
-    build: .
-    container_name:  api-gateway
-    hostname:  api-gateway
-    networks:
-     - gateway-network
-     - backend-network
-    environment:
-      KONG_DATABASE: postgres
-      KONG_PG_HOST: kong-database
-      KONG_PROXY_ACCESS_LOG: "/dev/stdout"
-      KONG_ADMIN_ACCESS_LOG: "/dev/stdout"
-      KONG_PROXY_ERROR_LOG: "/dev/stderr"
-      KONG_ADMIN_ERROR_LOG: "/dev/stderr"
-      KONG_ADMIN_LISTEN: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
-      KONG_PG_PASSWORD: kong
-      KONG_PG_USER: kong
-      KONG_PG_DATABASE: kongdb
-      KONG_PLUGINS: "bundled,oidc"
-    depends_on:
-      - kong-init-database
-    ports:
-     - 8000:8000
-     - 8443:8443
-     - 8001:8001
-     - 8444:8444
-
-   api-gateway-ui:
-    image: "pantsel/konga:latest"
-    container_name:  api-gateway-ui
-    restart: always
-    hostname: api-gateway-ui
-    networks:
-     - gateway-network    
-    environment:
-      NODE_ENV: production
-    depends_on:
-      - api-gateway
-    links:
-       - iam
-    ports:
-      - 1337:1337
-                       
+         
 volumes:
    pgdata-kong:
    pgdata-iam:
    
 networks:
+  frontend-network:
+     driver: bridge 
   gateway-network:
      driver: bridge     
   backend-network:
     external:
-      name: micro-service_backend-network
+      name: docker-compose_backend-network

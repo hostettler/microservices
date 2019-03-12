@@ -1,0 +1,97 @@
+version: "2.1"
+
+services:
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.6.1
+    container_name: elasticsearch
+    hostname: elasticsearch    
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: ["CMD", "curl", "-X", "GET", "http://localhost:9200"]
+      interval: 30s
+      timeout: 15s
+      retries: 15        
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data      
+    ports:
+      - 9200:9200
+      - 9300:9300      
+    networks:
+      - backend-network 
+ 
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.6.1
+    container_name: kibana 
+    hostname: kibana
+    networks:
+      - backend-network        
+    ports:
+      - 5601:5601        
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    healthcheck:
+      test: ["CMD", "curl", "-X", "GET", "http://localhost:5601"]
+      interval: 5s
+      timeout: 15s
+      retries: 15
+    links:
+       - elasticsearch         
+    depends_on:
+       elasticsearch:
+          condition: service_healthy
+  
+  logstash:
+    image: docker.elastic.co/logstash/logstash:6.6.1
+    container_name: logstash 
+    hostname: logstash
+    networks:
+      - backend-network    
+    command: -f /usr/share/logstash/pipeline/logstash.conf
+    healthcheck:
+      test: ["CMD", "curl", "-X", "GET", "http://localhost:9600"]
+      interval: 60s
+      timeout: 15s
+      retries: 15       
+    ports:
+      - 5000:5000          
+      - 9600:9600     
+    volumes:
+      - ./elk-pipeline/:/usr/share/logstash/pipeline/
+    links:
+      - elasticsearch   
+    depends_on:
+      elasticsearch :
+        condition: service_healthy
+ 
+  logspout:
+    image: bekt/logspout-logstash
+    container_name: logspout 
+    hostname: logspout
+    networks:
+      - backend-network    
+    restart: on-failure
+    environment:
+      ROUTE_URIS: logstash://logstash:5000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    links:
+      - logstash        
+    depends_on:
+       logstash:
+         condition: service_healthy 
+
+volumes:
+  esdata1:
+    driver: local
+
+networks:
+  backend-network:
+    driver: bridge
