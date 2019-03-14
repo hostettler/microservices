@@ -22,7 +22,7 @@ services:
     restart: on-failure
     stdin_open: true
     tty: true
-
+            
    api-gateway:
     image: unige/api-gateway
     container_name:  api-gateway
@@ -32,7 +32,7 @@ services:
      - gateway-network
      - backend-network
     command: >
-       sh -c "kong migrations up && sh /docker-entrypoint.sh kong docker-start --v --nginx-conf /usr/local/kong/template/nginx-custom-static-sso.template"       
+       sh -c "kong migrations bootstrap && kong migrations up && sh /docker-entrypoint.sh kong docker-start --v --nginx-conf /usr/local/kong/template/nginx-custom-static-sso.template"       
     healthcheck:
       test: ["CMD", "curl", "-X", "GET", "http://localhost:8001"]
       interval: 30s
@@ -108,7 +108,9 @@ services:
       - backend-network       
      restart: on-failure
      ports:
-       - 8080:8080     
+       - 8080:8080
+     volumes:      
+       - ./iam-config/:/tmp/iam-config
      environment:
        - KEYCLOAK_USER=admin
        - KEYCLOAK_PASSWORD=password
@@ -119,6 +121,7 @@ services:
        - DB_PORT=5432
        - DB_DATABASE=keycloakdb
        - PROXY_ADDRESS_FORWARDING=true
+       - KEYCLOAK_IMPORT=/tmp/iam-config/master.realm.json
      depends_on:
         iam-db :
           condition: service_healthy
