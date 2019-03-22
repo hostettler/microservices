@@ -31,7 +31,6 @@
 		<module>valuation-service</module>
 		<module>regulatory-service</module>
 		<module>api-gateway</module>
-		<module>web-sso</module>
 	</modules>
 
 
