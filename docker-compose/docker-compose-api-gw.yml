@@ -32,7 +32,7 @@ services:
      - gateway-network
      - backend-network
     command: >
-       sh -c "kong migrations bootstrap && kong migrations up && sh /docker-entrypoint.sh kong docker-start --v --nginx-conf /usr/local/kong/template/nginx-custom-static-sso.template"       
+       sh -c "kong migrations bootstrap && kong migrations up && kong migrations finish && sh /docker-entrypoint.sh kong docker-start --v --nginx-conf /usr/local/kong/template/nginx-custom-static-sso.template"       
     healthcheck:
       test: ["CMD", "curl", "-X", "GET", "http://localhost:8001"]
       interval: 30s
@@ -137,4 +137,4 @@ networks:
      driver: bridge     
   backend-network:
     external:
-      name: docker-compose_backend-network
+      name: microservices_backend-network
