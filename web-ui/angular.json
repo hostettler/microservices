@@ -42,6 +42,7 @@
             ],
             "scripts": [
               "node_modules/pace-js/pace.min.js",
+               "node_modules/keycloak-js/dist/keycloak.js",              
               "node_modules/tinymce/tinymce.min.js",
               "node_modules/tinymce/themes/modern/theme.min.js",
               "node_modules/tinymce/plugins/link/plugin.min.js",

@@ -31,4 +31,13 @@ public class CounterpartyServiceImpl implements CounterpartyService {
 	public Counterparty get(String lei) {
 		return em.find(Counterparty.class, lei);
 	}
+
+	@Override
+	public Long count() {
+		log.info("Count the number of counterparties");	
+		CriteriaBuilder qb = em.getCriteriaBuilder();
+		CriteriaQuery<Long> cq = qb.createQuery(Long.class);
+		cq.select(qb.count(cq.from(Counterparty.class)));
+		return em.createQuery(cq).getSingleResult();
+	}
 }

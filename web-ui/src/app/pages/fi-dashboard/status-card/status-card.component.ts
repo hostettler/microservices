@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'ngx-status-card',
   styleUrls: ['./status-card.component.scss'],
   template: `
-    <nb-card ">
+    <nb-card >
       <div class="icon-container">
         <div class="icon {{ type }}">
           <ng-content></ng-content>

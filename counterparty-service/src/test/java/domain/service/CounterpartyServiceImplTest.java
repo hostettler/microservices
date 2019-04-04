@@ -47,6 +47,13 @@ class CounterpartyServiceImplTest {
 		assertEquals(counterparties.get(0).getLei(), cpty.getLei());
 		assertEquals(counterparties.get(0).getLegalAddress(), cpty.getLegalAddress());
 	}
+	
+	@Test
+	void testCount() {
+		long size = initDataStore();
+		long count = counterpartyServiceImpl.count();
+		assertEquals(size, count);
+	}
 
 	private List<Counterparty> getCounterparties() {
 

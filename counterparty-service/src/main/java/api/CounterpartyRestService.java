@@ -29,6 +29,14 @@ public class CounterpartyRestService {
 	}
 	
 	@GET
+	@Path("/count")
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Count the number of counterparties")
+	public Long count() {
+		return counterpartyService.count();
+	}
+	
+	@GET
 	@Path("{lei}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Get a specific counterparty using its lei")

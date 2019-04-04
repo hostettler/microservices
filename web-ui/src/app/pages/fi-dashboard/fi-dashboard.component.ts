@@ -1,7 +1,9 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import { takeWhile } from 'rxjs/operators' ;
-
+import { InstrumentStatisticsService } from '../../domain/instrumentStatisticsService' ;
+import { CounterpartyService } from '../../domain/counterpartyService' ;
+import { Valuation } from '../../domain/Valuation' ;
 
 interface CardSettings {
   title: string;
@@ -15,7 +17,7 @@ interface CardSettings {
   styleUrls: ['./fi-dashboard.component.scss'],
   templateUrl: './fi-dashboard.component.html',
 })
-export class FIDashboardComponent implements OnDestroy {
+export class FIDashboardComponent implements OnDestroy, OnInit  {
 
   private alive = true;
 
@@ -23,15 +25,14 @@ export class FIDashboardComponent implements OnDestroy {
     title: 'Portfolio Valuation',
     iconClass: 'ion-social-usd',
     type: 'primary',
-    value: ''
+    value: '',
   };
   activeCpty: CardSettings = {
     title: '# active counterparties',
     iconClass: 'nb-person',
     type: 'success',
-    value: ''
+    value: '',
   };
- 
 
   statusCards: string;
 
@@ -51,21 +52,43 @@ export class FIDashboardComponent implements OnDestroy {
       {
         ...this.portfolioValuation,
         type: 'warning',
-        value : '$ 100\'000\'000'
+        value : '$ 100\'000\'000',
       },
       {
         ...this.activeCpty,
         type: 'primary',
-        value : '2\'543\'434'
-      }
+        value : '2\'543\'434',
+      },
     ],
   };
 
-  constructor(private themeService: NbThemeService) {
+  constructor(private themeService: NbThemeService,  public instrumentStatisticsService: InstrumentStatisticsService,
+    public counterpartyService: CounterpartyService) {
     this.themeService.getJsTheme()
       .pipe(takeWhile(() => this.alive))
       .subscribe(theme => {
         this.statusCards = this.statusCardsByThemes[theme.name];
+    });
+
+  }
+
+  ngOnInit() {
+    this.instrumentStatisticsService.getValuation().subscribe((data: Valuation) => {
+      console.info(data);
+      console.info(data.currentValue.toLocaleString());
+      let value: string = '';
+      if (data.reportingCurrency === 'USD') {
+        value = '$';
+      } else if (data.reportingCurrency === 'EUR') {
+          value = 'E';
+      }
+      value = value + data.currentValue.toLocaleString();
+      this.statusCardsByThemes.corporate[0].value = value;
+    });
+    this.counterpartyService.getCount().subscribe((data: Number) => {
+      console.info(data);
+      const value: string = data.toLocaleString();
+      this.statusCardsByThemes.corporate[1].value = value;
     });
 
   }

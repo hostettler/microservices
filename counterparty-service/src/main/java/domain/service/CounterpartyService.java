@@ -8,5 +8,6 @@ public interface CounterpartyService {
 
 	List<Counterparty> getAll();
 	Counterparty get(String lei);
+	Long count();
 
 }

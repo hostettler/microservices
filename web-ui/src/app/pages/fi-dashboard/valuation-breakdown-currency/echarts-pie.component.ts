@@ -1,5 +1,7 @@
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, AfterViewChecked, OnInit } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
+import { InstrumentStatisticsService } from '../../../domain/instrumentStatisticsService' ;
+import { Valuation } from '../../../domain/Valuation' ;
 
 @Component({
   selector: 'ngx-breakdown-currency',
@@ -7,11 +9,16 @@ import { NbThemeService } from '@nebular/theme';
     <div echarts [options]="options" class="echart"></div>
   `,
 })
-export class ValuationBreakdownCurrencyPieComponent implements AfterViewInit, OnDestroy {
+export class ValuationBreakdownCurrencyPieComponent implements AfterViewInit, AfterViewChecked, OnDestroy, OnInit {
+
   options: any = {};
   themeSubscription: any;
 
-  constructor(private theme: NbThemeService) {
+  private legend: String[];
+  private datapoints: any[] = [];
+  private currencies: string[] = [];
+
+  constructor(private theme: NbThemeService,  public instrumentStatisticsService: InstrumentStatisticsService) {
   }
 
   ngAfterViewInit() {
@@ -20,25 +27,26 @@ export class ValuationBreakdownCurrencyPieComponent implements AfterViewInit, On
       const colors = config.variables;
       const echarts: any = config.variables.echarts;
 
+
       this.options = {
         backgroundColor: echarts.bg,
         color: [colors.warningLight, colors.infoLight, colors.dangerLight, colors.successLight, colors.primaryLight],
         tooltip: {
           trigger: 'item',
           formatter: function(params) {
-            let serie:string = params.seriesName;
-            let type:string = params.name;
-            let amount:number = params.value;
-            let percentage:number = params.percent;
-            let formattedAmount:string = amount.toLocaleString();
-            let output:string =  '' + serie + ' <br/>' + type + ' : ' + formattedAmount + ' ('+ percentage + '%)';
+            const serie: string = params.seriesName;
+            const type: string = params.name;
+            const amount: number = params.value;
+            const percentage: number = params.percent;
+            const formattedAmount: string = amount.toLocaleString();
+            const output: string =  '' + serie + ' <br/>' + type + ' : ' + formattedAmount + ' (' + percentage + '%)';
             return output;
-          }
+          },
         },
         legend: {
           orient: 'vertical',
           left: 'left',
-          data: ['STOCK', 'LOAN', 'BOND', 'DEPOSIT', 'WARRANT'],
+          data: this.legend,
           textStyle: {
             color: echarts.textColor,
           },
@@ -50,13 +58,7 @@ export class ValuationBreakdownCurrencyPieComponent implements AfterViewInit, On
             type: 'pie',
             radius: '80%',
             center: ['50%', '50%'],
-            data: [
-              { value: 376127254, name: 'STOCK' },
-              { value: 317483580, name: 'LOAN' },
-              { value: 468433784, name: 'BOND' },
-              { value: 71056222, name: 'DEPOSIT' },
-              { value: 4847202, name: 'WARRANT' },
-            ],
+            data: this.datapoints,
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,
@@ -82,6 +84,35 @@ export class ValuationBreakdownCurrencyPieComponent implements AfterViewInit, On
         ],
       };
     });
+  }
+
+    private valuation: Valuation;
+
+    ngOnInit(): void {
+        console.info('OnInit');
+        this.currencies = [];
+        this.datapoints = [];
+        this.instrumentStatisticsService.getValuation().subscribe((data: Valuation) => {
+             console.info(data);
+             this.valuation = data;
+             for (const prop in data.breakdownByCurrency) {
+                if (data.breakdownByCurrency.hasOwnProperty(prop)) {
+                    console.info(prop);
+                    console.info(data.breakdownByCurrency[prop]);
+                    this.currencies.push(prop);
+                    this.datapoints.push({value: data.breakdownByCurrency[prop], name : prop});
+                }
+             }
+             console.info(this.currencies);
+             console.info(this.datapoints);
+            this.options.legend.data = this.currencies;
+            this.options.series.data = this.datapoints;
+        });
+    }
+
+  ngAfterViewChecked(): void {
+    this.options.legend.data = this.currencies;
+    this.options.series.data = this.datapoints;
   }
 
   ngOnDestroy(): void {
