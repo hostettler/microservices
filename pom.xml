@@ -6,7 +6,7 @@
 
 	<groupId>ch.unige</groupId>
 	<artifactId>pinfo-micro-services</artifactId>
-	<version>0.2.0</version>
+	<version>0.3.0-SNAPSHOT</version>
 	<name>Parent Pom of the Pinfo Micro Services</name>
 
 	<packaging>pom</packaging>
