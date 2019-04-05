@@ -12,14 +12,17 @@ export const environment = {
     production: false,
     apiUrl: 'URL_DE_API',
     keycloak: {
-        url: 'http://localhost:8080/auth',
-        realm: 'NOM_DU_ROYAUME',
-        clientId: 'CLIENT_ID',
+        url: 'http://iam:8080/auth',
+        realm: 'apigw',
+        clientId: 'api-gateway',
+        checkLoginIframe: true,
+        onLoad: 'login-required',
+        responseMode: "fragment",
     },
-    counterpartyService : {
-        url : 'http://localhost:10080',
+    counterpartyService: {
+        url: 'http://localhost:10080',
     },
-    valuationService : {
-        url : 'http://localhost:12080',
+    valuationService: {
+        url: 'http://localhost:12080',
     },
 };

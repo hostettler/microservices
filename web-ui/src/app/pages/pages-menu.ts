@@ -9,12 +9,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Dashboard',
     icon: 'nb-bar-chart',
     link: '/pages/fi-dashboard',
-    home: true
-  }, 
+    home: true,
+  },
   {
     title: 'Master Data',
     group: true,
-  }, 
+  },
   {
     title: 'Counterparties',
     icon: 'nb-person',
@@ -27,7 +27,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Update',
         link: '/pages/charts/echarts',
       },
-    ]
+    ],
   },
   {
     title: 'Instruments',
@@ -41,7 +41,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Update',
         link: '/pages/charts/echarts',
       },
-    ]
+    ],
   },
   {
     title: 'Configuration',

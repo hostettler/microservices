@@ -8,7 +8,7 @@ import { FIDashboardComponent } from './fi-dashboard/fi-dashboard.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
-  children: [  
+  children: [
   {
     path: 'fi-dashboard',
     component: FIDashboardComponent,

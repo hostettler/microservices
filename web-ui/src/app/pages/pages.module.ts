@@ -13,7 +13,7 @@ const PAGES_COMPONENTS = [
   imports: [
     PagesRoutingModule,
     ThemeModule,
-    FIDashboardModule
+    FIDashboardModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
