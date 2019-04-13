@@ -4,50 +4,68 @@ import { NbMenuService, NbSidebarService } from '@nebular/theme';
 import { UserService } from '../../../@core/data/users.service';
 import { AnalyticsService } from '../../../@core/utils';
 import { LayoutService } from '../../../@core/utils';
+import { KeycloakService } from '../../../services/keycloak/keycloak.service';
+
 
 @Component({
-  selector: 'ngx-header',
-  styleUrls: ['./header.component.scss'],
-  templateUrl: './header.component.html',
+    selector: 'ngx-header',
+    styleUrls: ['./header.component.scss'],
+    templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {
 
-  @Input() position = 'normal';
+    @Input() position = 'normal';
 
-  user: any;
+    user: any;
 
-  userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
+    userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
 
-  constructor(private sidebarService: NbSidebarService,
-              private menuService: NbMenuService,
-              private userService: UserService,
-              private analyticsService: AnalyticsService,
-              private layoutService: LayoutService) {
-  }
+    constructor(private sidebarService: NbSidebarService,
+        private menuService: NbMenuService,
+        private userService: UserService,
+        private analyticsService: AnalyticsService,
+        private layoutService: LayoutService,
+        private keycloakService: KeycloakService) {
+    }
 
-  ngOnInit() {
-    this.userService.getUsers()
-      .subscribe((users: any) => this.user = users.nick);
-  }
+    ngOnInit() {
+        this.user = {name: this.keycloakService.getFullName() };
+        this.menuService.onItemClick()
+            .subscribe((event) => {
+                this.onContecxtItemSelection(event.item.title);
+            });
+    }
 
-  toggleSidebar(): boolean {
-    this.sidebarService.toggle(true, 'menu-sidebar');
-    this.layoutService.changeLayoutSize();
+    onContecxtItemSelection(title) {
+        if (title === 'Log out') {
+            this.keycloakService.logout();
+        } else {
+            console.info(this.keycloakService.getFullName() + ' (' + this.keycloakService.getUsername() + ') ');
+        }
+    }
 
-    return false;
-  }
+    toggleSidebar(): boolean {
+        this.sidebarService.toggle(true, 'menu-sidebar');
+        this.layoutService.changeLayoutSize();
 
-  toggleSettings(): boolean {
-    this.sidebarService.toggle(false, 'settings-sidebar');
+        return false;
+    }
 
-    return false;
-  }
+    toggleSettings(): boolean {
+        this.sidebarService.toggle(false, 'settings-sidebar');
 
-  goToHome() {
-    this.menuService.navigateHome();
-  }
+        return false;
+    }
 
-  startSearch() {
-    this.analyticsService.trackEvent('startSearch');
-  }
+    goToHome() {
+        this.menuService.navigateHome();
+    }
+
+    startSearch() {
+        this.analyticsService.trackEvent('startSearch');
+    }
+
+    logout() {
+        this.keycloakService.logout();
+    }
 }

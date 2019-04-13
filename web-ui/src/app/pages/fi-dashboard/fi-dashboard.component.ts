@@ -76,9 +76,9 @@ export class FIDashboardComponent implements OnDestroy, OnInit {
 
     ngOnInit() {
         this.keycloakAuth = this.keycloak.getKeycloakAuth();
-        // if (this.keycloak.isLoggedIn() === false) {
-        //     this.keycloak.login();
-        // }
+        if (this.keycloak.isLoggedIn() === false) {
+            this.keycloak.login();
+        }
         this.instrumentStatisticsService.getValuation().subscribe((data: Valuation) => {
             console.info(data);
             console.info(data.currentValue.toLocaleString());

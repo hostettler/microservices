@@ -61,8 +61,17 @@ export class KeycloakService {
         return KeycloakService.auth.authz.authenticated;
     }
     getFullName(): string {
-        return KeycloakService.auth.authz.tokenParsed.name;
+        if (this.isLoggedIn()) {
+            return KeycloakService.auth.authz.tokenParsed.name;
+        } else return 'guest';
     }
+
+    getUsername(): string {
+        if (this.isLoggedIn()) {
+            return KeycloakService.auth.authz.tokenParsed.preferred_username;
+        } else return 'guest';
+    }
+
     getKeycloakAuth() {
         return KeycloakService.auth.authz;
     }

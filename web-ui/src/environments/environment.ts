@@ -14,10 +14,10 @@ export const environment = {
     keycloak: {
         url: 'http://iam:8080/auth',
         realm: 'apigw',
-        clientId: 'api-gateway',
+        clientId: 'web-sso',
         checkLoginIframe: true,
         onLoad: 'login-required',
-        responseMode: "fragment",
+        responseMode: 'fragment',
     },
     counterpartyService: {
         url: 'http://localhost:10080',
