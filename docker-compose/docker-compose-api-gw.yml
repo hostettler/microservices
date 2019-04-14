@@ -2,6 +2,7 @@ version: "2.1"
 
 services:
 
+
    kong-database:
     image: postgres:10
     container_name: kong-database
@@ -51,10 +52,10 @@ services:
       KONG_PG_PASSWORD: kong
       KONG_PG_USER: kong
       KONG_PG_DATABASE: kongdb
-      KONG_PLUGINS: "bundled,oidc"
+      KONG_PLUGINS: "bundled,jwt"
     volumes:      
       - ../web-ui/dist:/www/data:ro
-   ##Assuming we want to put our own certificates, we should put them in /usr/local/kong/ssl/certs
+#    Assuming we want to put our own certificates, we should put them in /usr/local/kong/ssl/certs
       - ./certs:/usr/local/kong/ssl/certs      
     ports:
      - 80:80
@@ -122,7 +123,7 @@ services:
        - DB_PORT=5432
        - DB_DATABASE=keycloakdb
        - PROXY_ADDRESS_FORWARDING=true
-       - KEYCLOAK_IMPORT=/tmp/iam-config/master.realm.json
+       - KEYCLOAK_IMPORT=/tmp/iam-config/realms.json
      depends_on:
         iam-db :
           condition: service_healthy

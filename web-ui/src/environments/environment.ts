@@ -12,7 +12,7 @@ export const environment = {
     production: false,
     apiUrl: 'URL_DE_API',
     keycloak: {
-        url: 'http://iam:8080/auth',
+        url: 'https://localhost/auth',
         realm: 'apigw',
         clientId: 'web-sso',
         checkLoginIframe: true,
@@ -20,9 +20,9 @@ export const environment = {
         responseMode: 'fragment',
     },
     counterpartyService: {
-        url: 'http://localhost:10080',
+        url: 'https://localhost/api/v1/counterparty',
     },
     valuationService: {
-        url: 'http://localhost:12080',
+        url: 'https://localhost/api/v1/valuation',
     },
 };

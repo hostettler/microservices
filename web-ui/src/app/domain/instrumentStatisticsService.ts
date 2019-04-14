@@ -21,7 +21,7 @@ export class InstrumentStatisticsService {
 
     // HttpClient API get() method => Fetch employees list
     getValuation(): Observable<Valuation> {
-        return this.http.get<Valuation>(environment.valuationService.url + '/valuation?currency=USD')
+        return this.http.get<Valuation>(environment.valuationService.url + '?currency=USD')
             .pipe(
                 retry(1),
                 catchError(this.handleError),
@@ -38,7 +38,7 @@ export class InstrumentStatisticsService {
             // Get server-side error
             errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
         }
-        window.alert(errorMessage);
+        console.error(errorMessage);
         return throwError(errorMessage);
     }
 }

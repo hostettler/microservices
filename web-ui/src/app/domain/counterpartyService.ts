@@ -21,7 +21,7 @@ export class CounterpartyService {
 
     // HttpClient API get() method => Fetch employees list
     getCount(): Observable<Number> {
-        return this.http.get<Number>(environment.counterpartyService.url + '/counterparties/count')
+        return this.http.get<Number>(environment.counterpartyService.url + '/count')
             .pipe(
                 retry(1),
                 catchError(this.handleError),
@@ -38,7 +38,7 @@ export class CounterpartyService {
             // Get server-side error
             errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
         }
-        window.alert(errorMessage);
+        console.error(errorMessage);
         return throwError(errorMessage);
     }
 }

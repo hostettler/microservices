@@ -11,5 +11,8 @@ curl -S -s -i -X POST  --url http://api-gateway:8001/services/init-instrument-se
 curl -S -s -i -X POST  --url http://api-gateway:8001/services/valuation-service/routes    --data-urlencode "paths[]=/api/v1/valuation" 
 curl -S -s -i -X POST  --url http://api-gateway:8001/services/regulatory-service/routes   --data-urlencode "paths[]=/api/v1/regulatory" 
 #Enable the Open ID Plugin
-curl -S -s -i -X POST  --url http://api-gateway:8001/plugins --data "name=oidc" --data "config.client_id=api-gateway" --data "config.client_secret=798751a9-d274-4335-abf6-80611cd19ba1" --data "config.discovery=https%3A%2F%2Flocalhost%2Fauth%2Frealms%2Fapigw%2F.well-known%2Fopenid-configuration"
-#curl -S -s -i -X POST  --url http://api-gateway:8001/plugins --data "name=oidc" --data "config.client_id=api-gateway" --data "config.client_secret=798751a9-d274-4335-abf6-80611cd19ba1" --data "config.discovery=http%3A%2F%2Fiam:8080%2Fauth%2Frealms%2Fapigw%2F.well-known%2Fopenid-configuration"
+curl -S -s -i -X POST  --url http://api-gateway:8001/plugins --data "name=jwt" --data "enabled=true"
+curl -S -s -i -X POST  --url http://api-gateway:8001/consumers  --data "username=api-sso-proxied"   --data "custom_id=api-sso-proxied"
+curl -S -s -i -X POST  --url http://api-gateway:8001/consumers/api-sso-proxied/jwt   -F "algorithm=RS256"  -F "rsa_public_key=@/tmp/keycloak_rsa_provider-key-pub.pem" -F "key=https://localhost/auth/realms/apigw"
+curl -S -s -i -X POST  --url http://api-gateway:8001/consumers  --data "username=api-sso-not-proxied"   --data "custom_id=api-sso-not-proxied"
+curl -S -s -i -X POST  --url http://api-gateway:8001/consumers/api-sso-not-proxied/jwt   -F "algorithm=RS256"  -F "rsa_public_key=@/tmp/keycloak_rsa_provider-key-pub.pem" -F "key=http://iam:8080/auth/realms/apigw"
