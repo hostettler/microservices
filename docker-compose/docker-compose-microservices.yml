@@ -19,7 +19,7 @@ services:
       - ./target/zk-single-kafka-single/zoo1/data:/data
       - ./target/zk-single-kafka-single/zoo1/datalog:/datalog
 
-  #Kafka is the messaging backbone of the micro-service architecture. The objective is avoid point 2 point connections.
+#   kafka is the messaging backbone of the micro-service architecture. The objective is avoid point 2 point connections.
   kafka:
     image: confluentinc/cp-kafka:5.1.0
     container_name: kafka 
@@ -42,15 +42,43 @@ services:
     depends_on:
       - zookeeper
 
+  counterparty-database:
+    image: postgres:10
+    container_name: counterparty-database
+    hostname: counterparty-database
+    networks:
+     - backend-network
+    environment:
+      POSTGRES_USER: cpty
+      POSTGRES_PASSWORD: cpty
+      POSTGRES_DB: counterparty
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "cpty", "-d", "counterparty"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    volumes:
+      - pgdata-cpty:/var/lib/postgresql/data
+    restart: on-failure
+    stdin_open: true
+    tty: true
+
   #The counterparty service provides counterparty data, it is also the single version of truth for these data
   counterparty-service:
     container_name: counterparty-service    
     image: unige/counterparty-service:latest
     hostname: counterparty-service
+    environment:
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_COUNTERPARTYDS_CONNECTION_DASH_URL: "jdbc:postgresql://counterparty-database:5432/counterparty"
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_COUNTERPARTYDS_DRIVER_DASH_NAME: 'postgresql'   
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_COUNTERPARTYDS_USER_DASH_NAME: 'cpty'
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_COUNTERPARTYDS_PASSWORD: 'cpty'
     networks:
       - backend-network    
     ports:
       - "10080:8080"
+    depends_on:
+       - counterparty-database
 
   instrument-service:
     container_name: instrument-service    
@@ -80,6 +108,9 @@ services:
     depends_on:
        - kafka
        - instrument-service   
+
+volumes:
+   pgdata-cpty:
 
 networks:
   backend-network:
