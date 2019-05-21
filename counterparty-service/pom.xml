@@ -102,6 +102,105 @@
 			<artifactId>junit-jupiter-engine</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>3.3.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+			<version>1.3</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.22.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unit-tests-1</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+						<destFile>jacoco.exec</destFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>unit-tests-2</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<append>false</append>
+						</configuration>
+					</execution>					
+					<execution>
+						<id>report</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>io.thorntail</groupId>
+				<artifactId>thorntail-maven-plugin</artifactId>
+				<configuration>
+					<!--PLACEHOLDER:configuration -->
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>package</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>start</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+						<configuration>
+						<jvmArguments>${}</jvmArguments>
+							<properties>
+								<thorntail.port.offset>20000</thorntail.port.offset>
+							</properties>
+						</configuration>
+					</execution>
+					<execution>
+						<id>stop</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

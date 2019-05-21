@@ -2,27 +2,31 @@ export class InstrumentStatistics {
 
     public currencyStatistics = {
         amounts : [],
-        currencies : []
-    }
-    
+        currencies : [],
+    };
+
      public instrumentStatistics = {
             amounts	 : [],
-            types : []
-     }
+            types : [],
+     };
 
-    constructor(statistics) {
-        console.log(statistics);
-        var instrumentBreakdown = statistics.breakdownByInstrumentType
-        for(var property in statistics.breakdownByInstrumentType) {
-            this.instrumentStatistics.types.push(property);
-            var data = instrumentBreakdown[property];
-            this.instrumentStatistics.amounts.push(data);            
+    constructor(statistics: any) {
+        console.info(statistics);
+        const instrumentBreakdown = statistics.breakdownByInstrumentType;
+        for (const property in statistics.breakdownByInstrumentType) {
+            if (instrumentBreakdown[property]) {
+                this.instrumentStatistics.types.push(property);
+                const data = instrumentBreakdown[property];
+                this.instrumentStatistics.amounts.push(data);
+            }
         }
-        var currencyBreakdown = statistics.breakdownByCurrency
-        for(var property in currencyBreakdown) {
-            this.currencyStatistics.currencies.push(property);
-            var data = currencyBreakdown[property];
-            this.currencyStatistics.amounts.push(data);            
+        const currencyBreakdown = statistics.breakdownByCurrency;
+        for (const property in currencyBreakdown) {
+            if (currencyBreakdown[property]) {
+                this.currencyStatistics.currencies.push(property);
+                const data = currencyBreakdown[property];
+                this.currencyStatistics.amounts.push(data);
+            }
         }
     }
 
@@ -34,7 +38,7 @@ export class InstrumentStatistics {
         return this.currencyStatistics.amounts;
     }
 
-    
+
     public getInstrumentTypes () {
         return this.instrumentStatistics.types;
     }
@@ -44,5 +48,3 @@ export class InstrumentStatistics {
     }
 
 }
-
- 

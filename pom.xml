@@ -191,6 +191,12 @@
 					<version>3.0.0-M3</version>
 				</plugin>
 				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>3.0.0-M6</version>
+				</plugin>
+				
+				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
 					<version>0.8.2</version>
@@ -229,16 +235,49 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<executions>
 					<execution>
+						<id>unit-tests</id>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
 					<execution>
+						<id>integration-tests-preaparation</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<propertyName>argLineForIntegration</propertyName>						
+							<destFile>${project.build.directory}/jacoco-it.exec</destFile>
+						</configuration>						
+					</execution>					
+					<execution>
+						<id>merge</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>merge</goal>
+						</goals>
+						<configuration>
+							<fileSets>
+								<fileSet>
+									<directory>${project.build.directory}</directory>
+									<includes>
+										<include>*.exec</include>
+									</includes>
+								</fileSet>
+							</fileSets>
+							<destFile>${project.build.directory}/jacoco-merged.exec</destFile>
+						</configuration>
+					</execution>
+					<execution>
 						<id>report</id>
-						<phase>prepare-package</phase>
+						<phase>post-integration-test</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
+						<configuration>
+						<dataFile>${project.build.directory}/jacoco-merged.exec</dataFile>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

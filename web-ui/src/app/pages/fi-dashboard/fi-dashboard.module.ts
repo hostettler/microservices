@@ -10,15 +10,15 @@ import { ValuationBreakdownCurrencyPieComponent } from './valuation-breakdown-cu
 import { ValuationBreakdownInstrumentPieComponent } from './valuation-breakdown-instrument/instrument-echarts-pie.component';
 
 @NgModule({
-  imports: [
-    ThemeModule,
-    NgxEchartsModule,
-  ],
-  declarations: [
-    FIDashboardComponent,
-    StatusCardComponent,
-    ValuationBreakdownCurrencyPieComponent,
-    ValuationBreakdownInstrumentPieComponent,
-  ],
+    imports: [
+        ThemeModule,
+        NgxEchartsModule,
+    ],
+    declarations: [
+        FIDashboardComponent,
+        StatusCardComponent,
+        ValuationBreakdownCurrencyPieComponent,
+        ValuationBreakdownInstrumentPieComponent,
+    ],
 })
 export class FIDashboardModule { }

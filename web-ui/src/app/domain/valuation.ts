@@ -4,5 +4,5 @@ export class Valuation {
    reportingCurrency: string;
    currentValue: number;
    percentile95: number;
-   percentile99 : number;
+   percentile99: number;
 }
