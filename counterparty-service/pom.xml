@@ -105,13 +105,11 @@
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>
-			<version>3.3.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
-			<version>1.3</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -121,48 +119,79 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.22.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+
 
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>unit-tests-1</id>
+						<id>unit-tests</id>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
-						<configuration>
-						<destFile>jacoco.exec</destFile>
-						</configuration>
 					</execution>
 					<execution>
-						<id>unit-tests-2</id>
+						<id>pre-integration-test-prepare-agent</id>
+						<phase>pre-integration-test</phase>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
 						<configuration>
 							<append>false</append>
+							<propertyName>jacoco.it.tests</propertyName>
+							<destFile>${project.build.directory}/jacoco-it.exec</destFile>
+							<address>localhost</address>
+							<output>tcpserver</output>
+							<port>10001</port>
+							<reset>false</reset>
+							<skip>${skip.dump}</skip>
 						</configuration>
-					</execution>					
+					</execution>
 					<execution>
-						<id>report</id>
+						<id>post-integration-test-prepare-agent</id>
 						<phase>post-integration-test</phase>
+						<goals>
+							<goal>dump</goal>
+						</goals>
+						<configuration>
+							<append>false</append>
+							<propertyName>jacoco.it.tests</propertyName>
+							<destFile>${project.build.directory}/jacoco-it.exec</destFile>
+							<address>localhost</address>
+							<output>tcpserver</output>
+							<port>10001</port>
+							<reset>false</reset>
+							<skip>${skip.dump}</skip>
+						</configuration>
+					</execution>
+					<execution>
+						<id>merge-coverage</id>
+						<phase>install</phase>
+						<goals>
+							<goal>merge</goal>
+						</goals>
+						<configuration>
+							<destFile>${project.build.directory}/coverage-merged.exec</destFile>
+							<fileSets>
+								<fileSet>
+									<directory>${project.build.directory}</directory>
+									<includes>
+										<include>*.exec</include>
+									</includes>
+								</fileSet>
+							</fileSets>
+						</configuration>
+					</execution>
+					<execution>
+						<id>verify-report</id>
+						<phase>install</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
+						<configuration>
+							<dataFile>${project.build.directory}/coverage-merged.exec</dataFile>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -171,7 +200,12 @@
 				<groupId>io.thorntail</groupId>
 				<artifactId>thorntail-maven-plugin</artifactId>
 				<configuration>
-					<!--PLACEHOLDER:configuration -->
+					<jvmArguments>
+						<jvmArgument>${jacoco.it.tests}</jvmArgument>
+					</jvmArguments>
+					<properties>
+						<thorntail.port.offset>20000</thorntail.port.offset>
+					</properties>
 				</configuration>
 				<executions>
 					<execution>
@@ -180,21 +214,20 @@
 						</goals>
 					</execution>
 					<execution>
-						<id>start</id>
+						<id>pre-integration-test-start</id>
 						<phase>pre-integration-test</phase>
 						<goals>
 							<goal>start</goal>
 						</goals>
 						<configuration>
-						<jvmArguments>${}</jvmArguments>
-							<properties>
-								<thorntail.port.offset>20000</thorntail.port.offset>
-							</properties>
+							<jvmArguments>
+								<jvmArgument>${jacoco.it.tests}</jvmArgument>
+							</jvmArguments>
 						</configuration>
 					</execution>
 					<execution>
-						<id>stop</id>
-						<phase>post-integration-test</phase>
+						<id>verify-stop</id>
+						<phase>verify</phase>
 						<goals>
 							<goal>stop</goal>
 						</goals>

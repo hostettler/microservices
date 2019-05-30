@@ -16,7 +16,7 @@
 	<properties>
 		<skip-docker-build>false</skip-docker-build>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>io.thorntail</groupId>
@@ -66,7 +66,133 @@
 			<groupId>org.aerogear.kafka</groupId>
 			<artifactId>kafka-cdi-extension</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unit-tests</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>pre-integration-test-prepare-agent</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<append>false</append>
+							<propertyName>jacoco.it.tests</propertyName>
+							<destFile>${project.build.directory}/jacoco-it.exec</destFile>
+							<address>localhost</address>
+							<output>tcpserver</output>
+							<port>10001</port>
+							<reset>false</reset>
+							<skip>${skip.dump}</skip>
+						</configuration>
+					</execution>
+					<execution>
+						<id>post-integration-test-prepare-agent</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>dump</goal>
+						</goals>
+						<configuration>
+							<append>false</append>
+							<propertyName>jacoco.it.tests</propertyName>
+							<destFile>${project.build.directory}/jacoco-it.exec</destFile>
+							<address>localhost</address>
+							<output>tcpserver</output>
+							<port>10001</port>
+							<reset>false</reset>
+							<skip>${skip.dump}</skip>
+						</configuration>
+					</execution>
+					<execution>
+						<id>merge-coverage</id>
+						<phase>install</phase>
+						<goals>
+							<goal>merge</goal>
+						</goals>
+						<configuration>
+							<destFile>${project.build.directory}/coverage-merged.exec</destFile>
+							<fileSets>
+								<fileSet>
+									<directory>${project.build.directory}</directory>
+									<includes>
+										<include>*.exec</include>
+									</includes>
+								</fileSet>
+							</fileSets>
+						</configuration>
+					</execution>
+					<execution>
+						<id>verify-report</id>
+						<phase>install</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<dataFile>${project.build.directory}/coverage-merged.exec</dataFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>io.thorntail</groupId>
+				<artifactId>thorntail-maven-plugin</artifactId>
+				<configuration>
+					<jvmArguments>
+						<jvmArgument>${jacoco.it.tests}</jvmArgument>
+					</jvmArguments>
+					<properties>
+						<thorntail.port.offset>20000</thorntail.port.offset>
+					</properties>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>package</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>pre-integration-test-start</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+						<configuration>
+							<jvmArguments>
+								<jvmArgument>${jacoco.it.tests}</jvmArgument>
+							</jvmArguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>verify-stop</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

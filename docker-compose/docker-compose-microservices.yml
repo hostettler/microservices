@@ -59,6 +59,7 @@ services:
       retries: 3
     volumes:
       - pgdata-cpty:/var/lib/postgresql/data
+      - ./test-data/counterparties.sql:/docker-entrypoint-initdb.d/init.sql
     restart: on-failure
     stdin_open: true
     tty: true
@@ -80,6 +81,28 @@ services:
     depends_on:
        - counterparty-database
 
+  instrument-database:
+    image: postgres:10
+    container_name: instrument-database
+    hostname: instrument-database
+    networks:
+     - backend-network
+    environment:
+      POSTGRES_USER: inst
+      POSTGRES_PASSWORD: inst
+      POSTGRES_DB: instrument
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "inst", "-d", "instrument"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    volumes:
+      - pgdata-inst:/var/lib/postgresql/data
+      - ./test-data/instruments.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: on-failure
+    stdin_open: true
+    tty: true
+    
   instrument-service:
     container_name: instrument-service    
     image: unige/instrument-service:latest
@@ -91,8 +114,13 @@ services:
     environment:
       THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
       THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_CONNECTION_DASH_URL: "jdbc:postgresql://instrument-database:5432/instrument"
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_DRIVER_DASH_NAME: 'postgresql'   
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_USER_DASH_NAME: 'inst'
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_PASSWORD: 'inst'      
     depends_on:
        - kafka
+       - instrument-database
 
   valuation-service:
     container_name: valuation-service    
