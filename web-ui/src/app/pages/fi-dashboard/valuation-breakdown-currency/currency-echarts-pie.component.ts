@@ -4,6 +4,7 @@ import { InstrumentStatisticsService } from '../../../domain/instrumentStatistic
 import { Valuation } from '../../../domain/Valuation';
 
 @Component({
+    // tslint:disable-next-line:component-selector
     selector: 'ngx-breakdown-currency',
     template: `
     <div echarts [options]="optionsCurrency" class="echart"  (chartInit)="onChartInit($event)"></div>

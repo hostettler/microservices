@@ -15,6 +15,7 @@ interface CardSettings {
 }
 
 @Component({
+    // tslint:disable-next-line:component-selector
     selector: 'ngx-dashboard',
     styleUrls: ['./fi-dashboard.component.scss'],
     templateUrl: './fi-dashboard.component.html',

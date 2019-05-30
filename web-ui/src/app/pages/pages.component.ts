@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { MENU_ITEMS } from './pages-menu';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'ngx-pages',
   styleUrls: ['pages.component.scss'],
   template: `

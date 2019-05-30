@@ -18,7 +18,7 @@
 			<property name="hibernate.connection.characterEncoding" value="UTF-8"/>
 			<property name="hibernate.connection.useUnicode" value="true"/>
 			
-			<property name="javax.persistence.sql-load-script-source" value="META-INF/load.sql"/>
+			<property name="javax.persistence.sql-load-script-source" value="META-INF/load_sample.sql"/>
 		</properties>
 	</persistence-unit>
 </persistence>
