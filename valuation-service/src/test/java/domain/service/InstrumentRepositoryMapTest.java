@@ -131,7 +131,7 @@ class InstrumentRepositoryMapTest {
 		instrumentRepositoryMap.add(getRandomInstrument());
 		instrumentRepositoryMap.add(getRandomInstrument());
 		Collection<Instrument> instruments = instrumentRepositoryMap.getAll();
-		assertEquals(instruments.size(), 6);
+		assertEquals(6, instruments.size());
 	}
 
 	private Instrument getRandomInstrument() {

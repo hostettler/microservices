@@ -46,13 +46,13 @@ class ValuationServiceImplTest {
 		List<Instrument> instruments = getInstruments();
 		when(repository.getAll()).thenReturn(instruments);
 		PortforlioStatistics statistics = valuationServiceImpl.valuatePortfolio("CHF");
-		assertEquals(statistics.getCurrentValue().compareTo(new BigDecimal("5.0")), 0);
-		assertEquals(statistics.getBreakdownByCurrency().get("CHF").compareTo(new BigDecimal("1.0")), 0);
-		assertEquals(statistics.getBreakdownByCurrency().get("USD").compareTo(new BigDecimal("4.0")), 0);
-		assertEquals(statistics.getBreakdownByInstrumentType().get(Instrument.INSTRUMENT_TYPE.BOND)
-				.compareTo(new BigDecimal("3.0")), 0);
-		assertEquals(statistics.getBreakdownByInstrumentType().get(Instrument.INSTRUMENT_TYPE.STOCK)
-				.compareTo(new BigDecimal("2.0")), 0);
+		assertEquals(0, statistics.getCurrentValue().compareTo(new BigDecimal("5.0")));
+		assertEquals(0, statistics.getBreakdownByCurrency().get("CHF").compareTo(new BigDecimal("1.0")));
+		assertEquals(0, statistics.getBreakdownByCurrency().get("USD").compareTo(new BigDecimal("4.0")));
+		assertEquals(0, statistics.getBreakdownByInstrumentType().get(Instrument.INSTRUMENT_TYPE.BOND)
+				.compareTo(new BigDecimal("3.0")));
+		assertEquals(0, statistics.getBreakdownByInstrumentType().get(Instrument.INSTRUMENT_TYPE.STOCK)
+				.compareTo(new BigDecimal("2.0")));
 	}
 
 	private List<Instrument> getInstruments() {
