@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>ch.unige</groupId>
 		<artifactId>pinfo-micro-services</artifactId>
-		<version>0.3.0-SNAPSHOT</version>
+		<version>0.4.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>instrument-service</artifactId>
@@ -16,7 +16,9 @@
 	<properties>
 		<container.folder>${project.build.directory}/wildfly-${wildfly.version}</container.folder>
 		<skip-docker-build>false</skip-docker-build>
+		<version.postgresql>42.2.2</version.postgresql>
 	</properties>
+
 
 	<dependencies>
 		<dependency>
@@ -67,18 +69,16 @@
 			<groupId>org.aerogear.kafka</groupId>
 			<artifactId>kafka-cdi-extension</artifactId>
 		</dependency>
-
-
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
-			<version>7.0</version>
+			<version>${java-ee-api.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>5.0.10.Final</version>
+			<version>${hibernate-entitymanager.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -115,14 +115,12 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.5</version>
+			<version>${postgresql.jdbc.driver.version}</version>
 		</dependency>
-
 	</dependencies>
-
 	<build>
-		<plugins>
 
+		<plugins>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
