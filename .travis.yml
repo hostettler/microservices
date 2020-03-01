@@ -16,13 +16,12 @@ script:
   - mvn sonar:sonar -Dsonar.projectKey=hostettler_microservices -Dsonar.organization=hostettler-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=10de2947edc0e089a82360cb2d1aa97482fafc28
   - mvn install -Ppackage-docker-image  
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker build -t 
-  - docker tag unige/api-gateway stevehostettler/unige/api-gateway:latest
-  - docker tag unige/regulatory-service stevehostettler/unige/regulatory-service:latest
-  - docker tag unige/valuation-service stevehostettler/unige/valuation-service:latest
-  - docker tag unige/counterparty-service stevehostettler/unige/counterparty-service:latest
-  - docker push stevehostettler/unige/api-gateway:latest
-  - docker push stevehostettler/unige/regulatory-service:latest
-  - docker push stevehostettler/unige/valuation-service:latest
-  - docker push stevehostettler/unige/counterparty-service:latest
+  - docker tag unige/api-gateway stevehostettler/api-gateway:latest
+  - docker tag unige/regulatory-service stevehostettler/regulatory-service:latest
+  - docker tag unige/valuation-service stevehostettler/valuation-service:latest
+  - docker tag unige/counterparty-service stevehostettler/counterparty-service:latest
+  - docker push stevehostettler/api-gateway:latest
+  - docker push stevehostettler/regulatory-service:latest
+  - docker push stevehostettler/valuation-service:latest
+  - docker push stevehostettler/counterparty-service:latest
 
