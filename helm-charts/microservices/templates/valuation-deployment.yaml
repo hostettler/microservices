@@ -33,10 +33,12 @@ spec:
             - name: THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST
               value: "{{ .Release.Name }}-kafka"
             - name: THORNTAIL_KAFKA_DASH_CONFIGURATION_POST
-              value: "9092"          
+              value: "9092"       
+            - name: THORNTAIL_PORT_OFFSET
+              value: "0"
           ports:
             - name: http
-              containerPort: 28080
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             httpGet:
