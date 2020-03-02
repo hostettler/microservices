@@ -1,0 +1,12 @@
+dependencies:
+- name: postgresql
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 7.7.2
+- name: nginx-ingress
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 1.27.0
+- name: kafka
+  repository: https://charts.bitnami.com/bitnami
+  version: 7.2.9
+digest: sha256:68c37e12cb4f9208430e1b69ff347de874cd1c2369e6129c104932b96a8f095b
+generated: "2020-03-01T22:46:42.4204431+01:00"

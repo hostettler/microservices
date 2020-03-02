@@ -1,9 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "microservices.fullname" . }}
+  name: {{ include "microservices.fullname" . }}.instrument-service
+  namespace: {{ .Release.Namespace }} 
   labels:
     {{- include "microservices.labels" . | nindent 4 }}
+    {{- include "microservices.labels" . | nindent 4 }}.instrument-service    
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -21,24 +23,37 @@ spec:
       serviceAccountName: {{ include "microservices.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: check-kafka-ready
+        image: busybox
+        command: ['sh', '-c', 'until echo "TEST" | nc {{ .Release.Name }}-kafka:9092; do echo "Waiting for Kafka"; sleep 5; done;']
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          image: {{ .Values.image.repository }}instrument-service:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST
+              value: "{{ .Release.Name }}-kafka"
+            - name: THORNTAIL_KAFKA_DASH_CONFIGURATION_POST
+              value: "9092"
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 28080
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /instrument
               port: http
+            initialDelaySeconds: 60
+            periodSeconds: 20                            
           readinessProbe:
             httpGet:
-              path: /
+              path: /instrument
               port: http
+            initialDelaySeconds: 60
+            periodSeconds: 20                                                 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
