@@ -139,6 +139,7 @@ services:
 
 volumes:
    pgdata-cpty:
+   pgdata-inst:
 
 networks:
   backend-network:
