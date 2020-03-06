@@ -77,7 +77,7 @@ services:
     networks:
       - backend-network    
     ports:
-      - "10080:8080"
+      - "10080:28080"
     depends_on:
        - counterparty-database
 
@@ -110,7 +110,7 @@ services:
     networks:
       - backend-network
     ports:
-      - "11080:8080"
+      - "11080:18080"
     environment:
       THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
       THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"
@@ -129,7 +129,7 @@ services:
     networks:
       - backend-network
     ports:
-      - "12080:8080"
+      - "12080:48080"
     environment:
       THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
       THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"      
@@ -140,6 +140,7 @@ services:
 volumes:
    pgdata-cpty:
    pgdata-inst:
+  
 
 networks:
   backend-network:
