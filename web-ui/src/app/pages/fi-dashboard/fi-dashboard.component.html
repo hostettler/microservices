@@ -1,19 +1,19 @@
 <div class="row">
   <div class="col-xxxl-3 col-md-6" *ngFor="let statusCard of statusCards">
-    <ngx-status-card [title]="statusCard.title"
+    <fi-status-card [title]="statusCard.title"
                      [type]="statusCard.type"
                      [value]="statusCard.value"
                      >
       <i [ngClass]="statusCard.iconClass"></i>
-    </ngx-status-card>
+    </fi-status-card>
   </div>
 </div>
 
 <div class="row">
   <div class="col-xxxl-3  col-md-6">
-    <ngx-breakdown-currency></ngx-breakdown-currency>
+    <fi-breakdown-currency></fi-breakdown-currency>
   </div>
   <div class="col-xxxl-3 col-md-6">
-    <ngx-breakdown-instrument></ngx-breakdown-instrument>
+    <fi-breakdown-instrument></fi-breakdown-instrument>
   </div>
 </div>

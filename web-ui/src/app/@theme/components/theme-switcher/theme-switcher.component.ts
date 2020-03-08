@@ -5,7 +5,7 @@ import { NbJSThemeOptions } from '@nebular/theme/services/js-themes/theme.option
 import { ThemeSwitcherListComponent } from './themes-switcher-list/themes-switcher-list.component';
 
 @Component({
-  selector: 'ngx-theme-switcher',
+  selector: 'fi-theme-switcher',
   templateUrl: './theme-switcher.component.html',
   styleUrls: ['./theme-switcher.component.scss'],
 })

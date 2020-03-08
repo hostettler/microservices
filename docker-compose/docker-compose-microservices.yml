@@ -110,7 +110,7 @@ services:
     networks:
       - backend-network
     ports:
-      - "11080:18080"
+      - "11080:28080"
     environment:
       THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
       THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"
@@ -129,7 +129,7 @@ services:
     networks:
       - backend-network
     ports:
-      - "12080:48080"
+      - "12080:28080"
     environment:
       THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
       THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"      

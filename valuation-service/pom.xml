@@ -163,7 +163,7 @@
 						<jvmArgument>${jacoco.it.tests}</jvmArgument>
 					</jvmArguments>
 					<properties>
-						<thorntail.port.offset>40000</thorntail.port.offset>
+						<thorntail.port.offset>20000</thorntail.port.offset>
 						<java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>						
 					</properties>
 				</configuration>

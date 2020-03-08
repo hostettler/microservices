@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'ngx-status-card',
+  selector: 'fi-status-card',
   styleUrls: ['./status-card.component.scss'],
   template: `
     <nb-card >

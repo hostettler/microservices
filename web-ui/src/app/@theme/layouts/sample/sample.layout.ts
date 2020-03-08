@@ -13,12 +13,12 @@ import { StateService } from '../../../@core/utils';
 
 // TODO: move layouts into the framework
 @Component({
-  selector: 'ngx-sample-layout',
+  selector: 'fi-sample-layout',
   styleUrls: ['./sample.layout.scss'],
   template: `
     <nb-layout [center]="layout.id === 'center-column'" windowMode>
       <nb-layout-header fixed>
-        <ngx-header [position]="sidebar.id === 'start' ? 'normal': 'inverse'"></ngx-header>
+        <fi-header [position]="sidebar.id === 'start' ? 'normal': 'inverse'"></fi-header>
       </nb-layout-header>
 
       <nb-sidebar class="menu-sidebar"
@@ -46,7 +46,7 @@ import { StateService } from '../../../@core/utils';
       </nb-layout-column>
 
       <nb-layout-footer fixed>
-        <ngx-footer></ngx-footer>
+        <fi-footer></fi-footer>
       </nb-layout-footer>
 
       <nb-sidebar class="settings-sidebar"
@@ -54,10 +54,10 @@ import { StateService } from '../../../@core/utils';
                    state="collapsed"
                    fixed
                    [end]="sidebar.id !== 'end'">
-        <ngx-theme-settings></ngx-theme-settings>
+        <fi-theme-settings></fi-theme-settings>
       </nb-sidebar>
     </nb-layout>
-    <ngx-toggle-settings-button></ngx-toggle-settings-button>
+    <fi-toggle-settings-button></fi-toggle-settings-button>
   `,
 })
 export class SampleLayoutComponent implements OnDestroy {

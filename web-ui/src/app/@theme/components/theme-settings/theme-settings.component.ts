@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { StateService } from '../../../@core/utils';
 
 @Component({
-  selector: 'ngx-theme-settings',
+  selector: 'fi-theme-settings',
   styleUrls: ['./theme-settings.component.scss'],
   template: `
     <h6>LAYOUTS</h6>
@@ -28,7 +28,7 @@ import { StateService } from '../../../@core/utils';
     </div>
     <div class="settings-row">
       <div class="switcher">
-        <ngx-layout-direction-switcher></ngx-layout-direction-switcher>
+        <fi-layout-direction-switcher></fi-layout-direction-switcher>
       </div>
     </div>
   `,

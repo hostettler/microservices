@@ -4,13 +4,13 @@ import { MENU_ITEMS } from './pages-menu';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'ngx-pages',
+  selector: 'fi-pages',
   styleUrls: ['pages.component.scss'],
   template: `
-    <ngx-sample-layout>
+    <fi-sample-layout>
       <nb-menu [items]="menu"></nb-menu>
       <router-outlet></router-outlet>
-    </ngx-sample-layout>
+    </fi-sample-layout>
   `,
 })
 export class PagesComponent {

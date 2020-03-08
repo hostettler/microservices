@@ -1,0 +1,19 @@
+server {
+	listen 80;
+
+	location / {
+	    auth_basic "Restricted";
+	    auth_basic_user_file /etc/nginx/htpasswd;
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+        }
+
+	location /api/ {
+	    proxy_set_header X-Forwarded-Host $host;
+	    proxy_set_header X-Forwarded-Server $host;
+	    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+	    proxy_pass http://localhost:8080/api/;
+	}
+
+}

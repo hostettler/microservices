@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, AfterViewChecked, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import { InstrumentStatisticsService } from '../../../domain/instrumentStatisticsService';
-import { Valuation } from '../../../domain/Valuation';
+import { Valuation } from '../../../domain/valuation';
 
 @Component({
-    selector: 'ngx-breakdown-instrument',
+    selector: 'fi-breakdown-instrument',
     template: `
     <div echarts [options]="optionsIntruments" class="echart" (chartInit)="onChartInit($event)"></div>
   `,

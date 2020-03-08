@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, OnDestroy, AfterViewChecked, OnInit } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import { InstrumentStatisticsService } from '../../../domain/instrumentStatisticsService';
-import { Valuation } from '../../../domain/Valuation';
+import { Valuation } from '../../../domain/valuation';
 
 @Component({
     // tslint:disable-next-line:component-selector
-    selector: 'ngx-breakdown-currency',
+    selector: 'fi-breakdown-currency',
     template: `
     <div echarts [options]="optionsCurrency" class="echart"  (chartInit)="onChartInit($event)"></div>
   `,

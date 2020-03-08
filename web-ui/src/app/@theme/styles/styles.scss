@@ -24,7 +24,7 @@
   @include nb-bootstrap-global();
 
   // loading progress bar
-  @include ngx-pace-theme();
+  @include app-pace-theme();
 
   // fixed in rc.9 and can be removed after upgrade
   .custom-control .custom-control-indicator {

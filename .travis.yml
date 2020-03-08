@@ -1,5 +1,8 @@
 language: java
 
+env:
+  - NODE_VERSION="12.13.1"
+  
 services:
   - docker
 
@@ -11,19 +14,39 @@ cache:
     directories:
       - .autoconf
       - $HOME/.m2
-script:
-  - mvn test
-  - mvn sonar:sonar -Dsonar.projectKey=hostettler_microservices -Dsonar.organization=hostettler-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=10de2947edc0e089a82360cb2d1aa97482fafc28
-  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Ppackage-docker-image  
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker tag unige/api-gateway stevehostettler/api-gateway:latest
-  - docker tag unige/regulatory-service stevehostettler/regulatory-service:latest
-  - docker tag unige/valuation-service stevehostettler/valuation-service:latest
-  - docker tag unige/instrument-service stevehostettler/instrument-service:latest
-  - docker tag unige/counterparty-service stevehostettler/counterparty-service:latest
-  - docker push stevehostettler/api-gateway:latest
-  - docker push stevehostettler/regulatory-service:latest
-  - docker push stevehostettler/valuation-service:latest
-  - docker push stevehostettler/instrument-service:latest
-  - docker push stevehostettler/counterparty-service:latest
+      - node_modules
 
+jobs:
+  include:
+    - stage: Prepare
+      script:
+      - nvm install $NODE_VERSION
+      - mvn install -N -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+    - stage : Build
+      script:
+      - mvn install -Ppackage-docker-image  
+      - mvn sonar:sonar -Dsonar.projectKey=hostettler_microservices -Dsonar.organization=hostettler-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=10de2947edc0e089a82360cb2d1aa97482fafc28
+    - stage : Build
+      script:
+      - cd web-ui
+      - pwd
+      - npm -v
+      - npm install
+      - npm update
+      - npm run-script build --prod
+      - docker build -t unige/web-ui .
+    - stage : Deploy
+      script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker tag unige/api-gateway stevehostettler/api-gateway:latest
+      - docker tag unige/regulatory-service stevehostettler/regulatory-service:latest
+      - docker tag unige/valuation-service stevehostettler/valuation-service:latest
+      - docker tag unige/instrument-service stevehostettler/instrument-service:latest
+      - docker tag unige/counterparty-service stevehostettler/counterparty-service:latest
+      - docker tag unige/web-ui stevehostettler/web-ui:latest
+      - docker push stevehostettler/api-gateway:latest
+      - docker push stevehostettler/regulatory-service:latest
+      - docker push stevehostettler/valuation-service:latest
+      - docker push stevehostettler/instrument-service:latest
+      - docker push stevehostettler/counterparty-service:latest
+      - docker push stevehostettler/web-ui:latest

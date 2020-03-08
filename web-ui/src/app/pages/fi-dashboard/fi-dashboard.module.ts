@@ -7,7 +7,7 @@ import { FIDashboardComponent } from './fi-dashboard.component';
 import { StatusCardComponent } from './status-card/status-card.component';
 
 import { ValuationBreakdownCurrencyPieComponent } from './valuation-breakdown-currency/currency-echarts-pie.component';
-import { ValuationBreakdownInstrumentPieComponent } from './valuation-breakdown-instrument/instrument-echarts-pie.component';
+import { ValuationBreakdownInstrumentPieComponent } from './valuation-breakdown-instrument/instrument-pie.component';
 
 @NgModule({
     imports: [

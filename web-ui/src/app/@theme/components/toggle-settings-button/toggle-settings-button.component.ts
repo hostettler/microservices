@@ -3,7 +3,7 @@ import { NbSidebarService } from '@nebular/theme';
 import { StateService } from '../../../@core/utils';
 
 @Component({
-  selector: 'ngx-toggle-settings-button',
+  selector: 'fi-toggle-settings-button',
   styleUrls: ['./toggle-settings-button.component.scss'],
   template: `
     <button class="toggle-settings"
