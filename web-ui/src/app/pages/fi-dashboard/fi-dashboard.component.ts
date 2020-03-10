@@ -3,7 +3,7 @@ import { NbThemeService } from '@nebular/theme';
 import { takeWhile } from 'rxjs/operators';
 import { InstrumentStatisticsService } from '../../domain/instrumentStatisticsService';
 import { CounterpartyService } from '../../domain/counterpartyService';
-import { Valuation } from '../../domain/Valuation';
+import { Valuation } from '../../domain/valuation';
 import { KeycloakService } from '../../services/keycloak/keycloak.service';
 import { KeycloakInstance } from 'keycloak-js';
 
