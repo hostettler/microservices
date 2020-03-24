@@ -8,11 +8,8 @@ import { environment } from '../../../environments/environment';
 export class KeycloakService {
 
     static auth: any = {};
+
     static init(): Promise<any> {
-        /**
-         * init KeycloakService with client-id
-         * @type {Keycloak.KeycloakInstance}
-         */
         const keycloakAuth: Keycloak.KeycloakInstance = Keycloak({
             url: environment.keycloak.url,
             realm: environment.keycloak.realm,
@@ -33,6 +30,8 @@ export class KeycloakService {
                 });
         });
     }
+    
+
     constructor() { }
     login(): void {
         KeycloakService.auth.authz.login().success(
@@ -43,7 +42,7 @@ export class KeycloakService {
     }
     getToken(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
-            if (KeycloakService.auth.authz.token) {
+             if (KeycloakService.auth.authz.token) {
                 KeycloakService.auth.authz
                     .updateToken(5)
                     .success(() => {
@@ -54,7 +53,7 @@ export class KeycloakService {
                     });
             } else {
                 reject('Not logged in');
-            }
+            }       
         });
     }
     isLoggedIn(): boolean {
