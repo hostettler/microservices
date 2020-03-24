@@ -30,7 +30,6 @@ export class KeycloakService {
                 });
         });
     }
-    
 
     constructor() { }
     login(): void {
@@ -53,7 +52,7 @@ export class KeycloakService {
                     });
             } else {
                 reject('Not logged in');
-            }       
+            }
         });
     }
     isLoggedIn(): boolean {
