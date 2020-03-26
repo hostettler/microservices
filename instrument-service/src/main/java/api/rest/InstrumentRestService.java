@@ -40,6 +40,14 @@ public class InstrumentRestService {
 	}
 
 	@GET
+	@Path("/count")
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Get a the count of instrument")
+    public Long count() {
+		return instrumentService.count();
+	}
+	
+	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Get a specifc instrument",
@@ -48,13 +56,7 @@ public class InstrumentRestService {
 		return instrumentService.get(instrumentId);
 	}
 	
-	@GET
-	@Path("/count")
-	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Get a the count of instrument")
-    public Long count() {
-		return instrumentService.count();
-	}
+
 	
 	
 	@PUT
