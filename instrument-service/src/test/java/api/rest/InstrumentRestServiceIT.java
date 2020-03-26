@@ -26,5 +26,10 @@ public class InstrumentRestServiceIT {
 	public void testGet() {
 		when().get("/1").then().body(containsString("254900LAW6SKNVPBBN21"));
 	}
+	
+	@Test
+	public void testCount() {
+		when().get("/count").then().body(containsString("10"));
+	}
 
 }

@@ -53,4 +53,12 @@ public class InstrumentServiceImpl implements InstrumentService {
 		}
 		em.persist(instrument);
 	}
+	
+	@Override
+	public Long count() {
+		CriteriaBuilder qb = em.getCriteriaBuilder();
+		CriteriaQuery<Long> cq = qb.createQuery(Long.class);
+		cq.select(qb.count(cq.from(Instrument.class)));
+		return em.createQuery(cq).getSingleResult();
+	}
 }

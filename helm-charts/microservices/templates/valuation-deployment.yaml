@@ -14,6 +14,7 @@ spec:
   template:
     metadata:
       labels:
+        app: {{ include "microservices.fullname" . }}.valuation-service
         {{- include "microservices.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
@@ -23,6 +24,13 @@ spec:
       serviceAccountName: {{ include "microservices.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: check-instrument-service
+        image: busybox
+        command: ['sh', '-c', 'until curl -X GET http://{{ include "microservices.fullname" . }}-instrument-service/instrument/count; do echo "Waiting for Instrument Service"; sleep 5; done;']
+      - name: propagate-instruments
+        image: busybox
+        command: ['sh', '-c', 'curl -X POST http://{{ include "microservices.fullname" . }}-instrument-service/instrument/propagateAllInstruments']
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -38,7 +46,7 @@ spec:
               value: "0"
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 28080
               protocol: TCP
           livenessProbe:
             httpGet:

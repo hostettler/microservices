@@ -48,6 +48,20 @@ class InstrumentServiceImplTest {
 	}
 
 	@Test
+	void testCount() {
+		List<Instrument> instruments = instrumentService.getAll();
+		int size = instruments.size();
+		
+		instrumentService.create(getRandomInstrument());
+		instrumentService.create(getRandomInstrument());
+		instrumentService.create(getRandomInstrument());
+		instrumentService.create(getRandomInstrument());
+		
+		Long count = instrumentService.count();
+		assertEquals(size + 4, count);
+	}
+	
+	@Test
 	void testUpdate() {
 		instrumentService.create(getRandomInstrument());
 		Instrument instrument = instrumentService.getAll().get(0);
@@ -58,7 +72,7 @@ class InstrumentServiceImplTest {
 		instrument = instrumentService.get(id);
 		assertEquals("XXX", instrument.getOriginalCurrency());
 	}
-
+	
 	@Test
 	void testUpdateNonExistant() {
 		Instrument i = new Instrument() {

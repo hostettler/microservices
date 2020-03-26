@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "microservices.fullname" . }}.regulatory-service
+  name: {{ include "microservices.fullname" . }}.web-ui
   namespace: {{ .Release.Namespace }} 
   labels:
     {{- include "microservices.labels" . | nindent 4 }}
-    {{- include "microservices.labels" . | nindent 4 }}.regulatory-service
+    {{- include "microservices.labels" . | nindent 4 }}.web-ui    
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -14,7 +14,8 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "microservices.selectorLabels" . | nindent 8 }}
+        app: {{ include "microservices.fullname" . }}.web-ui
+        {{- include "microservices.selectorLabels" . | nindent 8 }}       
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -22,32 +23,36 @@ spec:
     {{- end }}
       serviceAccountName: {{ include "microservices.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}     
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ .Values.image.repository }}regulatory-service:{{ .Values.image.tag }}
+          image: {{ .Values.image.repository }}web-ui:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST
+              value: "{{ .Release.Name }}-kafka"
+            - name: THORNTAIL_KAFKA_DASH_CONFIGURATION_POST
+              value: "9092"
             - name: THORNTAIL_PORT_OFFSET
-              value: "0"          
+              value: "0"
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 80
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /regulatory
-              port: http
-            initialDelaySeconds: 30
-            periodSeconds: 20              
-          readinessProbe:
-            httpGet:
-              path: /regulatory
-              port: http
-            initialDelaySeconds: 30
-            periodSeconds: 20              
+#           livenessProbe:
+#             httpGet:
+#               path: /instrument
+#               port: http
+#             initialDelaySeconds: 60
+#             periodSeconds: 20                            
+#           readinessProbe:
+#             httpGet:
+#               path: /instrument
+#               port: http
+#             initialDelaySeconds: 60
+#             periodSeconds: 20                                                 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

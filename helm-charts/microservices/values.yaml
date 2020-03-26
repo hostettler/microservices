@@ -17,18 +17,57 @@ kafka:
   persistence:
      enabled: false
 
-postgresql:
+counterparty-db:
   driver_name: org.postgresql
-  postgresUser: admin
-  postgresPassword: admin
-  postgresDatabase: tenant1
-  postgresqlUsername : admin
-  postgresqlPostgresPassword: admin
-  postgresqlDatabase: tenant1
+  persistence:
+     enabled: false
+#   postgresUser: cpty
+#   postgresPassword: "cpty"
+  postgresDatabase: counterparty
+#   postgresqlUsername : cpty
+#   postgresqlPostgresPassword: "cpty"
+  postgresqlDatabase: counterparty
   global:
-      postgresqlUsername: admin
-      postgresqlPassword: admin
-      postgresqlDatabase: tenant1
+      persistence:
+         enabled: false
+#       postgresqlUsername: cpty
+#       postgresqlPassword: "cpty"
+      postgresqlDatabase: counterparty
+  initdbScriptsConfigMap:
+    counterparty-scripts
+
+instrument-db:
+  driver_name: org.postgresql
+  persistence:
+     enabled: false
+  postgresUser: inst
+#   postgresPassword: "inst
+  postgresDatabase: instrument
+#   postgresqlUsername : inst
+#   postgresqlPostgresPassword: inst
+  postgresqlDatabase: instrument
+  global:
+      persistence:
+         enabled: false
+#       postgresqlUsername: inst
+#       postgresqlPassword: inst
+      postgresqlDatabase: instrument
+  initdbScriptsConfigMap:
+    instrument-scripts
+
+
+keycloak:
+  keycloak:
+    password: asdfghjkl
+    extraVolumes: |
+      - name: keycloak-realm-secret
+        secret:
+          secretName: keycloak-realm-secret
+    extraVolumeMounts: |
+      - name: keycloak-realm-secret
+        mountPath: "/realm/"
+        readOnly: true          
+    extraArgs: -Dkeycloak.import=/realm/realms.json
 
 imagePullSecrets: []
 nameOverride: ""

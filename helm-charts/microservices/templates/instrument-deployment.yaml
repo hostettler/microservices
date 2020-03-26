@@ -14,6 +14,7 @@ spec:
   template:
     metadata:
       labels:
+        app: {{ include "microservices.fullname" . }}.instrument-service        
         {{- include "microservices.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
@@ -42,7 +43,7 @@ spec:
               value: "0"
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 28080
               protocol: TCP
           livenessProbe:
             httpGet:

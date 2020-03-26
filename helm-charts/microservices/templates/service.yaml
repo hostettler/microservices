@@ -5,31 +5,14 @@ metadata:
   labels:
     {{- include "microservices.labels" . | nindent 4 }}.counterparty-service
 spec:
-  type: {{ .Values.service.type }}
+  type: ClusterIP
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: 28080
+      targetPort: 28080
       protocol: TCP
-      name: http
   selector:
-    {{- include "microservices.selectorLabels" . | nindent 4 }}.counterparty-service
----    
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "microservices.fullname" . }}-instrument-service
-  labels:
-    {{- include "microservices.labels" . | nindent 4 }}.instrument-service
-spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
-  selector:
-    {{- include "microservices.selectorLabels" . | nindent 4 }}.instrument-service
----    
+    app: {{ include "microservices.fullname" . }}.counterparty-service
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -37,27 +20,40 @@ metadata:
   labels:
     {{- include "microservices.labels" . | nindent 4 }}.valuation-service
 spec:
-  type: {{ .Values.service.type }}
+  type: ClusterIP
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: 28080
+      targetPort: 28080
       protocol: TCP
-      name: http
   selector:
-    {{- include "microservices.selectorLabels" . | nindent 4 }}.valuation-service
----    
+    app: {{ include "microservices.fullname" . }}.valuation-service
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "microservices.fullname" . }}-regulatory-service
+  name: {{ include "microservices.fullname" . }}-instrument-service
   labels:
-    {{- include "microservices.labels" . | nindent 4 }}.regulatory-service
+    {{- include "microservices.labels" . | nindent 4 }}.instrument-service
 spec:
-  type: {{ .Values.service.type }}
+  type: ClusterIP
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: 28080
+      targetPort: 28080
       protocol: TCP
-      name: http
   selector:
-    {{- include "microservices.selectorLabels" . | nindent 4 }}.regulatory-service     
+    app: {{ include "microservices.fullname" . }}.instrument-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "microservices.fullname" . }}-web-ui
+  labels:
+    {{- include "microservices.labels" . | nindent 4 }}.web-ui
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: {{ include "microservices.fullname" . }}.web-ui

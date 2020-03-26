@@ -1,0 +1,77 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "microservices.fullname" . }}.ingress-static
+  namespace: {{ .Release.Namespace }} 
+  labels:
+    {{- include "microservices.labels" . | nindent 4 }}
+    {{- include "microservices.labels" . | nindent 4 }}.ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /auth
+        backend:
+          serviceName: {{ .Release.Name  }}-keycloak-http
+          servicePort: 80   
+      - path: /
+        backend:
+          serviceName: {{ include "microservices.fullname" . }}-web-ui
+          servicePort: 80
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /counterparties/$2
+  name: {{ include "microservices.fullname" . }}.ingress-api-counterparties
+  namespace: {{ .Release.Namespace }} 
+  labels:
+    {{- include "microservices.labels" . | nindent 4 }}
+    {{- include "microservices.labels" . | nindent 4 }}.ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /api/v1/counterparty(/|$)(.*)
+        backend:
+          serviceName: {{ include "microservices.fullname" . }}-counterparty-service
+          servicePort: 28080    
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /instrument/$2
+  name: {{ include "microservices.fullname" . }}.ingress-api-instruments
+  namespace: {{ .Release.Namespace }} 
+  labels:
+    {{- include "microservices.labels" . | nindent 4 }}
+    {{- include "microservices.labels" . | nindent 4 }}.ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /api/v1/instruments(/|$)(.*)
+        backend:
+          serviceName: {{ include "microservices.fullname" . }}-instrument-service
+          servicePort: 28080
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /valuation/$2
+  name: {{ include "microservices.fullname" . }}.ingress-api-valuation
+  namespace: {{ .Release.Namespace }} 
+  labels:
+    {{- include "microservices.labels" . | nindent 4 }}
+    {{- include "microservices.labels" . | nindent 4 }}.ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /api/v1/valuation(/|$)(.*)
+        backend:
+          serviceName: {{ include "microservices.fullname" . }}-valuation-service
+          servicePort: 28080                                                  
