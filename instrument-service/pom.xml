@@ -248,7 +248,7 @@
 				</dependencies>
 				<configuration>
 					<driver>org.h2.Driver</driver>
-					<url>jdbc:h2:./target/CounterpartyDB;AUTO_SERVER=TRUE</url>
+					<url>jdbc:h2:${java.io.tmpdir}/target/InstrumentDB;AUTO_SERVER=TRUE;AUTO_SERVER=TRUE</url>
 					<username>sa</username>
 					<password>sa</password>
 					<autocommit>true</autocommit>
@@ -263,7 +263,7 @@
 						</goals>
 						<configuration>
 							<srcFiles>
-								<srcFile>src/main/resources/META-INF/instruments_test_data.sql</srcFile>
+								<srcFile>${project.basedir}/src/main/resources/META-INF/instruments_test_data.sql</srcFile>
 							</srcFiles>
 						</configuration>
 					</execution>
