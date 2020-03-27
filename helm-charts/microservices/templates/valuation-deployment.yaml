@@ -26,11 +26,11 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
       - name: check-instrument-service
-        image: busybox
-        command: ['sh', '-c', 'until curl -X GET http://{{ include "microservices.fullname" . }}-instrument-service/instrument/count; do echo "Waiting for Instrument Service"; sleep 5; done;']
+        image: curlimages/curl
+        command: ['sh', '-c', 'until curl -X GET http://{{ include "microservices.fullname" . }}-instrument-service:28080/instrument/count; do echo "Waiting for Instrument Service"; sleep 5; done;']
       - name: propagate-instruments
-        image: busybox
-        command: ['sh', '-c', 'curl -X POST http://{{ include "microservices.fullname" . }}-instrument-service/instrument/propagateAllInstruments']
+        image: curlimages/curl
+        command: ['sh', '-c', 'curl -X POST http://{{ include "microservices.fullname" . }}-instrument-service:28080/instrument/propagateAllInstruments']
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

@@ -25,6 +25,11 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
+      - name: check-db-ready
+        image: postgres:12.1-alpine
+        command: ['sh', '-c', 
+          'until pg_isready -h {{ .Release.Name }}-instrument-db -p 5432; 
+          do echo waiting for database; sleep 2; done;']            
       - name: check-kafka-ready
         image: busybox
         command: ['sh', '-c', 'until echo "TEST" | nc {{ .Release.Name }}-kafka:9092; do echo "Waiting for Kafka"; sleep 5; done;']
@@ -41,19 +46,27 @@ spec:
               value: "9092"
             - name: THORNTAIL_PORT_OFFSET
               value: "0"
+            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_COUNTERPARTYDS_CONNECTION_DASH_URL
+              value: "jdbc:postgresql://{{ .Release.Name }}-instrument-db:5432/instrument"
+            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_COUNTERPARTYDS_DRIVER_DASH_NAME
+              value: "postgresql"   
+            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_COUNTERPARTYDS_USER_DASH_NAME
+              value: "inst"
+            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_COUNTERPARTYDS_PASSWORD
+              value: "inst"               
           ports:
             - name: http
               containerPort: 28080
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /instrument
+              path: /instrument/count
               port: http
             initialDelaySeconds: 60
             periodSeconds: 20                            
           readinessProbe:
             httpGet:
-              path: /instrument
+              path: /instrument/count
               port: http
             initialDelaySeconds: 60
             periodSeconds: 20                                                 
