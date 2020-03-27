@@ -7,7 +7,7 @@
 		transaction-type="JTA">
 		<jta-data-source>java:jboss/datasources/instrumentds</jta-data-source>
 		<properties>
-			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.dialect"

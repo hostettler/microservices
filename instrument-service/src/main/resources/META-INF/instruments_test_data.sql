@@ -1,3 +1,23 @@
+drop table Instrument if exists;
+drop sequence if exists INSTRUMENT_SEQ;
+create sequence INSTRUMENT_SEQ start with 1 increment by 50;
+create table Instrument (
+        instrumentType varchar(31) not null,
+        id bigint not null,
+        amountInOriginalCurrency decimal(19,2),
+        brokerLei varchar(255),
+        counterpartyLei varchar(255),
+        dealDate timestamp,
+        originalCurrency varchar(255),
+        valueDate timestamp,
+        isin varchar(255),
+        quantity bigint,
+        maturityDate timestamp,
+        tracker varchar(255),
+        direction varchar(255),
+        strikeAmount decimal(19,2),
+        primary key (id)
+);
 INSERT INTO Instrument (ID, instrumentType, brokerLei, counterpartyLei, dealDate, originalCurrency, valueDate, isin, tracker, quantity, maturityDate, amountInOriginalCurrency, strikeAmount, direction) values ( INSTRUMENT_SEQ.nextval, 'B', '254900LAW6SKNVPBBN21', '969500CHL179N00GX059', PARSEDATETIME('17-09-2017','yyyy-dd-mm','en'), 'EUR', PARSEDATETIME('17-09-2017','yyyy-dd-mm','en'), 'BE7261065565', NULL, 5445, PARSEDATETIME('09/01/2020','mm/dd/yyyy','en'), 539926.2, NULL, NULL  );
 INSERT INTO Instrument (ID, instrumentType, brokerLei, counterpartyLei, dealDate, originalCurrency, valueDate, isin, tracker, quantity, maturityDate, amountInOriginalCurrency, strikeAmount, direction) values ( INSTRUMENT_SEQ.nextval, 'B', '724500PEZUPUYR4BRB49', '959800ZEL3D4ZSNB4687', PARSEDATETIME('08-09-2010','yyyy-dd-mm','en'), 'EUR', PARSEDATETIME('08-09-2010','yyyy-dd-mm','en'), 'BE7261727404', NULL, 9033, PARSEDATETIME('11/12/2020','mm/dd/yyyy','en'), 898783.5, NULL, NULL  );
 INSERT INTO Instrument (ID, instrumentType, brokerLei, counterpartyLei, dealDate, originalCurrency, valueDate, isin, tracker, quantity, maturityDate, amountInOriginalCurrency, strikeAmount, direction) values ( INSTRUMENT_SEQ.nextval, 'B', '9598008Z7MNQCDK3DN13', '9845008979K65B620X11', PARSEDATETIME('25-09-2012','yyyy-dd-mm','en'), 'EUR', PARSEDATETIME('25-09-2012','yyyy-dd-mm','en'), 'BE7281695649', NULL, 1810, PARSEDATETIME('02/03/2020','mm/dd/yyyy','en'), 183262.5, NULL, NULL  );

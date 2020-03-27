@@ -12,13 +12,9 @@
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.dialect"
 				value="org.hibernate.dialect.H2Dialect" />
-				
-			<property name="hibernate.hbm2ddl.charset_name" value="UTF-8"/>	
-			<property name="hibernate.connection.CharSet" value="UTF-8"/>
-			<property name="hibernate.connection.characterEncoding" value="UTF-8"/>
-			<property name="hibernate.connection.useUnicode" value="true"/>
-			
-			<property name="javax.persistence.sql-load-script-source" value="META-INF/load_sample.sql"/>
+			<property name="hibernate.id.new_generator_mappings" value="true" />
+			<property name="hibernate.hbm2ddl.charset_name" value="UTF-8"/>			
+			<property name="javax.persistence.sql-load-script-source" value="META-INF/counterparties_test_data.sql"/>
 		</properties>
 	</persistence-unit>
 </persistence>
