@@ -17,4 +17,6 @@
 {{- else if contains "ClusterIP" .Values.service.type }}
   echo "Visit https://localhost to use your application"
   echo "Visit https://localhost/auth to access the identity manager"
+  echo "kubectl port-forward svc/pinfo-v1-counterparty-db 5432:5432 to expose the postgres counterparty database to port 5432 on localhost"
+  echo "kubectl port-forward svc/pinfo-v1-instrument-db 5432:5432 to expose the postgres instrument database to port 5432 on localhost" 
 {{- end }}

@@ -21,17 +21,11 @@ counterparty-db:
   driver_name: org.postgresql
   persistence:
      enabled: false
-#   postgresUser: cpty
-#   postgresPassword: "cpty"
   postgresDatabase: counterparty
-#   postgresqlUsername : cpty
-#   postgresqlPostgresPassword: "cpty"
   postgresqlDatabase: counterparty
   global:
       persistence:
          enabled: false
-#       postgresqlUsername: cpty
-#       postgresqlPassword: "cpty"
       postgresqlDatabase: counterparty
   initdbScriptsConfigMap:
     counterparty-scripts
@@ -41,16 +35,11 @@ instrument-db:
   persistence:
      enabled: false
   postgresUser: inst
-#   postgresPassword: "inst
   postgresDatabase: instrument
-#   postgresqlUsername : inst
-#   postgresqlPostgresPassword: inst
   postgresqlDatabase: instrument
   global:
       persistence:
          enabled: false
-#       postgresqlUsername: inst
-#       postgresqlPassword: inst
       postgresqlDatabase: instrument
   initdbScriptsConfigMap:
     instrument-scripts

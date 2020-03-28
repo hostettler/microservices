@@ -20,7 +20,7 @@ create table Counterparty (
     status integer,
     primary key (lei)
 );
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public to cpty;
+GRANT SELECT, INSERT ON ALL TABLES IN SCHEMA public to cpty;
 TRUNCATE TABLE COUNTERPARTY; 
 INSERT INTO COUNTERPARTY (lei, name, firstAddressLine, city, region, country, postalCode, registrationAuthorityID, registrationAuthorityEntityID,jurisdiction, category, legalFormCode,  status, registrationDate, lastUpdated, registrationStatus, nextRenewalDate) VALUES ('353800DERDIT6K33ZH46','三井住友信託銀行信託/00012924','1-4-1　Marunouchi','Tokyo Chiyoda-ku','','JP','100-8233','RA888888','12924','JP','','','0','2018-12-27','2018-12-27','ISSUED','2019-12-27');
 INSERT INTO COUNTERPARTY (lei, name, firstAddressLine, city, region, country, postalCode, registrationAuthorityID, registrationAuthorityEntityID,jurisdiction, category, legalFormCode,  status, registrationDate, lastUpdated, registrationStatus, nextRenewalDate) VALUES ('984500C2EEUEB4A0C629','Niclas Engborg Holding AB','Ekstigen 14','Solna','SE-AB','SE','169 34','RA000544','556786-4045','SE','','XJHM','0','2018-12-27','2018-12-27','ISSUED','2019-12-27');

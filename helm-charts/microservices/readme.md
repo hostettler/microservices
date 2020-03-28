@@ -1,6 +1,22 @@
 The pinfo microservices example project Helm Chart
 ==================================================
 
+
+Installation of kubernetes
+--------------------------
+Kubernetes is installed usually as part of the local Docker engine. It must be enabled though.
+For more information on how to install kubernetes, please refer to the [following instructions](https://kubernetes.io/docs/setup/)
+
+Once installed the next thing is to deploy the dashboard. The following command will download and install the dashboard.
+
+	$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-rc6/aio/deploy/recommended.yaml
+
+Then a proxy must be setup:
+
+	$ kubectl proxy
+
+Finally to view the dashboard, point your browser to the [following address](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/)
+
 Installation of Helm and the main repositories
 ------------------------------------------
 To install helm please refer to https://helm.sh/docs/intro/install/

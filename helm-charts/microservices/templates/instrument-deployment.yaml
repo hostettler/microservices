@@ -46,13 +46,13 @@ spec:
               value: "9092"
             - name: THORNTAIL_PORT_OFFSET
               value: "0"
-            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_COUNTERPARTYDS_CONNECTION_DASH_URL
+            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_CONNECTION_DASH_URL
               value: "jdbc:postgresql://{{ .Release.Name }}-instrument-db:5432/instrument"
-            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_COUNTERPARTYDS_DRIVER_DASH_NAME
+            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_DRIVER_DASH_NAME
               value: "postgresql"   
-            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_COUNTERPARTYDS_USER_DASH_NAME
+            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_USER_DASH_NAME
               value: "inst"
-            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_COUNTERPARTYDS_PASSWORD
+            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_PASSWORD
               value: "inst"               
           ports:
             - name: http
