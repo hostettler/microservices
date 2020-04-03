@@ -7,6 +7,11 @@ Installation of kubernetes
 Kubernetes is installed usually as part of the local Docker engine. It must be enabled though.
 For more information on how to install kubernetes, please refer to the [following instructions](https://kubernetes.io/docs/setup/)
 
+
+	$ #!/bin/bash
+	$ TOKEN=$(kubectl -n kube-system describe secret default| awk '$1=="token:"{print $2}')
+	$ kubectl config set-credentials kubernetes-admin --token="${TOKEN}"
+
 Once installed the next thing is to deploy the dashboard. The following command will download and install the dashboard.
 
 	$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-rc6/aio/deploy/recommended.yaml
