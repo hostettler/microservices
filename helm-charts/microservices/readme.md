@@ -4,8 +4,21 @@ The pinfo microservices example project Helm Chart
 
 Installation of kubernetes
 --------------------------
-Kubernetes is installed usually as part of the local Docker engine. It must be enabled though.
+On a developer machine, Kubernetes is installed usually as part of the local Docker engine. It must be enabled though.
 For more information on how to install kubernetes, please refer to the [following instructions](https://kubernetes.io/docs/setup/)
+
+
+On an Ubuntu server with a single, please use [microk8s](https://microk8s.io/docs/)
+Then do not forget to add helm3
+
+	$ microk8s enable helm3
+
+To be able to use microk8s like any other kubernetes
+ 
+	$ alias kubectl='microk8s kubectl'
+	$ alias helm='microk8s helm3'
+	
+To be able to use it from your local laptop
 
 
 	$ #!/bin/bash
