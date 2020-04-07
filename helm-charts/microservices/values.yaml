@@ -73,9 +73,9 @@ keycloak:
         mountPath: "/realm/"
         readOnly: true          
     extraArgs: -Dkeycloak.import=/realm/realms.json
-    livenessProbe:
+    livenessProbe: |
       initialDelaySeconds: 120
-    readinessProbe:
+    readinessProbe: |
       initialDelaySeconds: 120
 
 
