@@ -12,6 +12,7 @@ On an Ubuntu server with a single, please use [microk8s](https://microk8s.io/doc
 Then do not forget to add helm3
 
 	$ microk8s enable helm3
+	$ microk8s enable dns
 
 To be able to use microk8s like any other kubernetes
  

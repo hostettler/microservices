@@ -78,7 +78,6 @@ keycloak:
     readinessProbe: |
       initialDelaySeconds: 120
 
-
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""

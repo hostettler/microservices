@@ -9,7 +9,7 @@ export class KeycloakService {
 
     static auth: any = {};
 
-    static init(): Promise<any> {
+    init(): Promise<any> {
         const keycloakAuth: Keycloak.KeycloakInstance = Keycloak({
             url: environment.keycloak.url,
             realm: environment.keycloak.realm,
