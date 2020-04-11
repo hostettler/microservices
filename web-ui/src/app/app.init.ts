@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';;
+import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import {  map } from 'rxjs/operators';
 declare var window: any;
 
 @Injectable()
