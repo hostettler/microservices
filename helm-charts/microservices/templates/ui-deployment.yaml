@@ -24,19 +24,25 @@ spec:
       serviceAccountName: {{ include "microservices.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}     
+      volumes:
+      - name: config-volume
+        configMap:
+          name: {{ include "microservices.fullname" . }}-web-ui-config 
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ .Values.image.repository }}web-ui:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+               {{- toYaml .Values.resources | nindent 12 }}
           env:
             - name: THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST
               value: "{{ .Release.Name }}-kafka"
             - name: THORNTAIL_KAFKA_DASH_CONFIGURATION_POST
               value: "9092"
             - name: THORNTAIL_PORT_OFFSET
-              value: "0"
+              value: "0"      
           ports:
             - name: http
               containerPort: 80
@@ -52,9 +58,11 @@ spec:
 #               path: /instrument
 #               port: http
 #             initialDelaySeconds: 60
-#             periodSeconds: 20                                                 
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+#             periodSeconds: 20
+          volumeMounts:
+          - name: config-volume
+            mountPath: /usr/share/nginx/html/assets/config/app-config.json
+            subPath: app-config.json                                         
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
