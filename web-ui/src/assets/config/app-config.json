@@ -6,7 +6,7 @@
         "url": "https://pinfo3.unige.ch/auth",
         "realm": "apigw",
         "clientId": "web-sso",
-        "checkLoginIframe": true,
+        "checkLoginIframe": "true",
         "onLoad": "login-required",
         "responseMode": "fragment"
     },

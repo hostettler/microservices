@@ -15,7 +15,7 @@ kafka:
     livenessProbe:
       initialDelaySeconds: 120
     readinessProbe:
-      initialDelaySeconds: 120
+      initialDelaySeconds: 100
     persistence:
       enabled: false
   persistence:
@@ -23,7 +23,7 @@ kafka:
   livenessProbe:
      initialDelaySeconds: 120
   readinessProbe:
-     initialDelaySeconds: 120
+     initialDelaySeconds: 100
 
 counterparty-db:
   driver_name: org.postgresql
@@ -40,7 +40,7 @@ counterparty-db:
   livenessProbe:
      initialDelaySeconds: 120
   readinessProbe:
-     initialDelaySeconds: 120
+     initialDelaySeconds: 100
 
 instrument-db:
   driver_name: org.postgresql
@@ -58,7 +58,7 @@ instrument-db:
   livenessProbe:
      initialDelaySeconds: 120
   readinessProbe:
-     initialDelaySeconds: 120
+     initialDelaySeconds: 100
 
 
 keycloak:
@@ -73,10 +73,6 @@ keycloak:
         mountPath: "/realm/"
         readOnly: true          
     extraArgs: -Dkeycloak.import=/realm/realms.json
-    livenessProbe: |
-      initialDelaySeconds: 120
-    readinessProbe: |
-      initialDelaySeconds: 120
 
 imagePullSecrets: []
 nameOverride: ""
