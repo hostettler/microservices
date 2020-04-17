@@ -25,7 +25,8 @@ jobs:
     - stage : Build
       script:
       - mvn install -Ppackage-docker-image  
-      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - echo "$DOCKER_USERNAME"
+      - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
       - docker tag unige/api-gateway stevehostettler/api-gateway:latest
       - docker tag unige/regulatory-service stevehostettler/regulatory-service:latest
       - docker tag unige/valuation-service stevehostettler/valuation-service:latest
