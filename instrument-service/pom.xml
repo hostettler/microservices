@@ -225,7 +225,7 @@
 							</jvmArguments>
 						</configuration>
 					</execution>
-					<execution>
+ 					<execution>
 						<id>verify-stop</id>
 						<phase>verify</phase>
 						<goals>
