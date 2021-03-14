@@ -1,5 +1,4 @@
-CREATE USER inst WITH PASSWORD 'inst';
-drop table Instrument if exists;
+drop table if exists Instrument;
 drop sequence if exists INSTRUMENT_SEQ;
 create sequence INSTRUMENT_SEQ start with 1 increment by 50;
 create table Instrument (

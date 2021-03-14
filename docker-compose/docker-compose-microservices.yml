@@ -59,7 +59,7 @@ services:
       retries: 3
     volumes:
       - pgdata-cpty:/var/lib/postgresql/data
-      - ./test-data/counterparties.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./test-data/counterparties/:/docker-entrypoint-initdb.d/
     restart: on-failure
     stdin_open: true
     tty: true
@@ -98,7 +98,7 @@ services:
       retries: 3
     volumes:
       - pgdata-inst:/var/lib/postgresql/data
-      - ./test-data/instruments.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./test-data/instruments/:/docker-entrypoint-initdb.d/
     restart: on-failure
     stdin_open: true
     tty: true
