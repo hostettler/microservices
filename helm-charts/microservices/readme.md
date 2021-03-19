@@ -58,6 +58,7 @@ Configuring the cluster for the pinfo application
 	$ kubectl create configmap instrument-scripts  --from-file ./test-data/200_instruments.sql.gz
 	$ kubectl delete configmap counterparty-scripts
 	$ kubectl create configmap counterparty-scripts  --from-file ./test-data/100_counterparties.sql.gz
+	$ kubectl create configmap web-ui-config --from-file=test-data/app-config.json
 
 Start the application
 ---------------------

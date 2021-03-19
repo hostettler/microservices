@@ -27,7 +27,7 @@ spec:
       volumes:
       - name: config-volume
         configMap:
-          name: {{ include "microservices.fullname" . }}-web-ui-config 
+          name: web-ui-config 
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

@@ -12,7 +12,7 @@ spec:
       paths:
       - path: /auth
         backend:
-          serviceName: {{ .Release.Name  }}-keycloak-http
+          serviceName: {{ .Release.Name  }}-key-http
           servicePort: 80   
       - path: /
         backend:
