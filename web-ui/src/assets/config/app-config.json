@@ -3,7 +3,7 @@
     "production": "false",
     "apiUrl": "URL_DE_API",
     "keycloak": {
-        "url": "https://pinfo3.unige.ch/auth",
+        "url": "https://localhost/auth",
         "realm": "apigw",
         "clientId": "web-sso",
         "checkLoginIframe": "true",
@@ -11,9 +11,9 @@
         "responseMode": "fragment"
     },
     "counterpartyService": {
-        "url": "https://pinfo3.unige.ch/api/v1/counterparty"
+        "url": "https://localhost/api/v1/counterparty"
     },
     "valuationService": {
-        "url": "https://pinfo3.unige.ch/api/v1/valuation"
+        "url": "https://localhost/api/v1/valuation"
     }
 }
