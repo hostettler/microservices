@@ -1,77 +1,142 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: {{ include "microservices.fullname" . }}.ingress-static
+  name: {{ include "microservices.fullname" . }}.ingress-web-ui
   namespace: {{ .Release.Namespace }} 
   labels:
     {{- include "microservices.labels" . | nindent 4 }}
     {{- include "microservices.labels" . | nindent 4 }}.ingress
+  annotations:  
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+       auth_request_set $name_upstream_1 $upstream_cookie__oauth2_proxy_1;
+       access_by_lua_block {
+         if ngx.var.name_upstream_1 ~= "" then
+           ngx.header["Set-Cookie"] = "_oauth2_proxy_1=" .. ngx.var.name_upstream_1 .. ngx.var.auth_cookie:match("(; .*)")
+         end
+       }
+
 spec:
+#  ingressClassName: nginx-oauth
   rules:
-  - http:
+  - host: pinfo.westeurope.cloudapp.azure.com
+    http:
       paths:
-      - path: /auth
-        backend:
-          serviceName: {{ .Release.Name  }}-key-http
-          servicePort: 80   
       - path: /
         backend:
-          serviceName: {{ include "microservices.fullname" . }}-web-ui
-          servicePort: 80
+          serviceName: v1-microservices-web-ui
+          servicePort: 80    
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /counterparties/$2
-  name: {{ include "microservices.fullname" . }}.ingress-api-counterparties
-  namespace: {{ .Release.Namespace }} 
-  labels:
-    {{- include "microservices.labels" . | nindent 4 }}
-    {{- include "microservices.labels" . | nindent 4 }}.ingress
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /api/v1/counterparty(/|$)(.*)
-        backend:
-          serviceName: {{ include "microservices.fullname" . }}-counterparty-service
-          servicePort: 28080    
----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /instrument/$2
-  name: {{ include "microservices.fullname" . }}.ingress-api-instruments
-  namespace: {{ .Release.Namespace }} 
-  labels:
-    {{- include "microservices.labels" . | nindent 4 }}
-    {{- include "microservices.labels" . | nindent 4 }}.ingress
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /api/v1/instruments(/|$)(.*)
-        backend:
-          serviceName: {{ include "microservices.fullname" . }}-instrument-service
-          servicePort: 28080
----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /valuation/$2
   name: {{ include "microservices.fullname" . }}.ingress-api-valuation
   namespace: {{ .Release.Namespace }} 
   labels:
     {{- include "microservices.labels" . | nindent 4 }}
     {{- include "microservices.labels" . | nindent 4 }}.ingress
+  annotations:  
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
+    nginx.ingress.kubernetes.io/rewrite-target: /valuation/$2    
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+       auth_request_set $name_upstream_1 $upstream_cookie__oauth2_proxy_1;
+       access_by_lua_block {
+         if ngx.var.name_upstream_1 ~= "" then
+           ngx.header["Set-Cookie"] = "_oauth2_proxy_1=" .. ngx.var.name_upstream_1 .. ngx.var.auth_cookie:match("(; .*)")
+         end
+       }
+
 spec:
+#  ingressClassName: nginx-oauth
   rules:
-  - http:
+  - host: pinfo.westeurope.cloudapp.azure.com
+    http:
       paths:
       - path: /api/v1/valuation(/|$)(.*)
         backend:
-          serviceName: {{ include "microservices.fullname" . }}-valuation-service
-          servicePort: 28080                                                  
+          serviceName: v1-microservices-valuation-service
+          servicePort: 80    
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "microservices.fullname" . }}.ingress-api-instruments
+  namespace: {{ .Release.Namespace }} 
+  labels:
+    {{- include "microservices.labels" . | nindent 4 }}
+    {{- include "microservices.labels" . | nindent 4 }}.ingress
+  annotations:  
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
+    nginx.ingress.kubernetes.io/rewrite-target: /instrument/$2    
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+       auth_request_set $name_upstream_1 $upstream_cookie__oauth2_proxy_1;
+       access_by_lua_block {
+         if ngx.var.name_upstream_1 ~= "" then
+           ngx.header["Set-Cookie"] = "_oauth2_proxy_1=" .. ngx.var.name_upstream_1 .. ngx.var.auth_cookie:match("(; .*)")
+         end
+       }
+
+spec:
+#  ingressClassName: nginx-oauth
+  rules:
+  - host: pinfo.westeurope.cloudapp.azure.com
+    http:
+      paths:
+      - path: /api/v1/instruments(/|$)(.*)
+        backend:
+          serviceName: v1-microservices-instrument-service
+          servicePort: 80    
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "microservices.fullname" . }}.ingress-api-counterparty
+  namespace: {{ .Release.Namespace }} 
+  labels:
+    {{- include "microservices.labels" . | nindent 4 }}
+    {{- include "microservices.labels" . | nindent 4 }}.ingress
+  annotations:  
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
+    nginx.ingress.kubernetes.io/rewrite-target: /counterparties/$2    
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+       auth_request_set $name_upstream_1 $upstream_cookie__oauth2_proxy_1;
+       access_by_lua_block {
+         if ngx.var.name_upstream_1 ~= "" then
+           ngx.header["Set-Cookie"] = "_oauth2_proxy_1=" .. ngx.var.name_upstream_1 .. ngx.var.auth_cookie:match("(; .*)")
+         end
+       }
+
+spec:
+#  ingressClassName: nginx-oauth
+  rules:
+  - host: pinfo.westeurope.cloudapp.azure.com
+    http:
+      paths:
+      - path: /api/v1/counterparties(/|$)(.*)
+        backend:
+          serviceName: v1-microservices-counterparty-service
+          servicePort: 80         
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: oauth2-proxy
+  namespace: {{ .Release.Namespace }} 
+spec:
+#  ingressClassName: nginx-oauth
+  rules:
+  - host: pinfo.westeurope.cloudapp.azure.com
+    http:
+      paths:
+      - backend:
+          serviceName: oauth2-proxy
+          servicePort: 4180
+        path: /oauth2

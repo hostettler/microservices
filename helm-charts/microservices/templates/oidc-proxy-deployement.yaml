@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: oauth2-proxy
+  name: oauth2-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: oauth2-proxy
+  template:
+    metadata:
+      labels:
+        k8s-app: oauth2-proxy
+        component: oauth2-proxy
+    spec:
+      containers:
+      - image: quay.io/oauth2-proxy/oauth2-proxy:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 4180
+          protocol: TCP        
+        name: oauth2-proxy
+        args:
+        - --provider=oidc
+        - --upstream=https://pinfo.westeurope.cloudapp.azure.com/
+        - --http-address=0.0.0.0:4180
+        - --cookie-secure=true
+        - --redirect-url=https://pinfo.westeurope.cloudapp.azure.com/oauth2/callback
+        - --pass-user-headers=true
+        - --set-xauthrequest=true
+        - --pass-authorization-header=true
+        - --cookie-secure=true
+        - --skip-auth-preflight=false
+        - --skip-oidc-discovery
+        - --oidc-issuer-url=https://pinfo.us.auth0.com/
+        - --login-url=https://pinfo.us.auth0.com/authorize
+        - --redeem-url=https://pinfo.us.auth0.com/oauth/token
+        - --oidc-jwks-url=https://pinfo.us.auth0.com/.well-known/jwks.json
+        - --email-domain=*
+        env:
+        - name: OAUTH2_PROXY_CLIENT_ID
+          value: 31eATLvLhuY05cuu9n7hQrQxHK448ETJ
+        - name: OAUTH2_PROXY_CLIENT_SECRET
+          value: k5Z7cW8QYMlq5QqmSQegeRjU4x7CFrqBse8QcO8qp5a8GOBDGCF4e7dsFLSyb8nS
+        - name: OAUTH2_PROXY_COOKIE_SECRET
+          value: LjWWb+S41ihgZwhO5mwsQQ==
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    k8s-app: oauth2-proxy
+  name: oauth2-proxy
+spec:
+  ports:
+  - name: http
+    port: 4180
+    protocol: TCP
+    targetPort: 4180
+  selector:
+    k8s-app: oauth2-proxy

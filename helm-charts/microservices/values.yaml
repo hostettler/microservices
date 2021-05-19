@@ -9,6 +9,10 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
+main-ingress:
+   controller:
+      service:
+         loadBalancerIP: 20.82.42.193
 
 kafka:
   zookeeper:
@@ -59,20 +63,6 @@ instrument-db:
      initialDelaySeconds: 120
   readinessProbe:
      initialDelaySeconds: 100
-
-
-keycloak:
-  keycloak:
-    password: asdfghjkl
-    extraVolumes: |
-      - name: keycloak-realm-secret
-        secret:
-          secretName: keycloak-realm-secret
-    extraVolumeMounts: |
-      - name: keycloak-realm-secret
-        mountPath: "/realm/"
-        readOnly: true          
-    extraArgs: -Dkeycloak.import=/realm/realms.json
 
 imagePullSecrets: []
 nameOverride: ""
