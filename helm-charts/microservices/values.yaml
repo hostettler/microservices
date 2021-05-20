@@ -13,6 +13,10 @@ main-ingress:
    controller:
       service:
          loadBalancerIP: 20.82.42.193
+oauth:
+    baseUrl: XXXX
+    clientId: XXXX
+    secret: XXXX
 
 kafka:
   zookeeper:
