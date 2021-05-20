@@ -43,7 +43,7 @@ spec:
         - name: OAUTH2_PROXY_CLIENT_ID
           value: 31eATLvLhuY05cuu9n7hQrQxHK448ETJ
         - name: OAUTH2_PROXY_CLIENT_SECRET
-          value: k5Z7cW8QYMlq5QqmSQegeRjU4x7CFrqBse8QcO8qp5a8GOBDGCF4e7dsFLSyb8nS
+          value: XXXX
         - name: OAUTH2_PROXY_COOKIE_SECRET
           value: LjWWb+S41ihgZwhO5mwsQQ==
 ---
