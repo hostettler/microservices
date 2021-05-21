@@ -11,12 +11,12 @@ const routes: Routes = [{
     {
       path: 'dashboard',
       component: ECommerceComponent,
-    },    
+    },
     {
       path: '',
       redirectTo: 'dashboard',
       pathMatch: 'full',
-    }
+    },
   ],
 }];
 

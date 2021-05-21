@@ -70,7 +70,6 @@ statusCardsByThemes: {
           .subscribe(theme => {
               this.statusCards = this.statusCardsByThemes[theme.name];
           });
-
   }
 
   ngOnInit() {    
