@@ -48,20 +48,20 @@ statusCardsByThemes: {
     dark: CardSettings[];
 } = {
         default: [
-            { ...this.portfolioValuation,},
-            { ...this.activeCpty,},
+            { ...this.portfolioValuation},
+            { ...this.activeCpty},
         ],
         cosmic: [
-            { ...this.portfolioValuation,},
-            { ...this.activeCpty,},
+            { ...this.portfolioValuation},
+            { ...this.activeCpty},
         ],
         corporate:[
-            { ...this.portfolioValuation,},
-            { ...this.activeCpty,},
+            { ...this.portfolioValuation},
+            { ...this.activeCpty},
         ],
         dark: [
-            { ...this.portfolioValuation,},
-            { ...this.activeCpty,},
+            { ...this.portfolioValuation},
+            { ...this.activeCpty},
         ],
     };
 
