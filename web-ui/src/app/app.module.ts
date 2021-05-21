@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 import { NgModule, APP_INITIALIZER  } from '@angular/core';
-import { NbOAuth2AuthStrategy, NbAuthModule,NbOAuth2ResponseType} from '@nebular/auth';
+import { NbOAuth2AuthStrategy, NbAuthModule, NbOAuth2ResponseType} from '@nebular/auth';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';

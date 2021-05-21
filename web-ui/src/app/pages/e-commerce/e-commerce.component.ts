@@ -72,7 +72,7 @@ statusCardsByThemes: {
           });
   }
 
-  ngOnInit() {    
+  ngOnInit() {
     this.instrumentStatisticsService.getValuation().subscribe((data: Valuation) => {
         console.info(data);
         console.info(data.currentValue.toLocaleString());
@@ -89,7 +89,7 @@ statusCardsByThemes: {
         console.info(data);
         const value: string = data.toLocaleString();
         this.statusCardsByThemes.corporate[1].value = value;
-    });        
+    }); 
   }
 
   ngOnDestroy() {
