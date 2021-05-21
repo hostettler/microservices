@@ -12,13 +12,12 @@ import { Component, Input } from '@angular/core';
       </div>
       <div class="details">
         <div class="title h5">{{ title }}</div>
-        <div class="status paragraph-2">{{ value }}</div>
+        <div class="status h6">{{ value }}</div>
       </div>
     </nb-card>
   `,
 })
 export class StatusCardComponent {
-
   @Input() title: string;
   @Input() type: string;
   @Input() value: string;

@@ -24,14 +24,14 @@ private alive = true;
 portfolioValuation: CardSettings = {
     title: 'Portfolio Valuation',
     iconClass: 'ion-social-usd',
-    type: 'primary',
-    value: '',
+    type: 'warning',
+    value: '$ 100\'000\'000',
 };
 activeCpty: CardSettings = {
     title: '# counterparties',
     iconClass: 'nb-person',
-    type: 'success',
-    value: '',
+    type: 'primary',
+    value: '2\'543\'434',
 };
 
 statusCards: string;
@@ -45,20 +45,23 @@ statusCardsByThemes: {
     default: CardSettings[];
     cosmic: CardSettings[];
     corporate: CardSettings[];
+    dark: CardSettings[];
 } = {
-        default: this.commonStatusCardsSet,
-        cosmic: this.commonStatusCardsSet,
-        corporate: [
-            {
-                ...this.portfolioValuation,
-                type: 'warning',
-                value: '$ 100\'000\'000',
-            },
-            {
-                ...this.activeCpty,
-                type: 'primary',
-                value: '2\'543\'434',
-            },
+        default: [
+            { ...this.portfolioValuation,},
+            { ...this.activeCpty,},
+        ],
+        cosmic: [
+            { ...this.portfolioValuation,},
+            { ...this.activeCpty,},
+        ],
+        corporate:[
+            { ...this.portfolioValuation,},
+            { ...this.activeCpty,},
+        ],
+        dark: [
+            { ...this.portfolioValuation,},
+            { ...this.activeCpty,},
         ],
     };
 
@@ -83,13 +86,19 @@ statusCardsByThemes: {
             value = 'E';
         }
         value = value + data.currentValue.toLocaleString();
+        this.statusCardsByThemes.default[0].value = value;
+        this.statusCardsByThemes.cosmic[0].value = value;
         this.statusCardsByThemes.corporate[0].value = value;
+        this.statusCardsByThemes.dark[0].value = value;
     });
     this.counterpartyService.getCount().subscribe((data: Number) => {
         console.info(data);
         const value: string = data.toLocaleString();
+        this.statusCardsByThemes.default[1].value = value;
+        this.statusCardsByThemes.cosmic[1].value = value;
         this.statusCardsByThemes.corporate[1].value = value;
-    }); 
+        this.statusCardsByThemes.dark[1].value = value;
+    });
   }
 
   ngOnDestroy() {
