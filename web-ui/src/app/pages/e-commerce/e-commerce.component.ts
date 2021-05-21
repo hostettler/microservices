@@ -55,7 +55,7 @@ statusCardsByThemes: {
             { ...this.portfolioValuation},
             { ...this.activeCpty},
         ],
-        corporate:[
+        corporate: [
             { ...this.portfolioValuation},
             { ...this.activeCpty},
         ],
