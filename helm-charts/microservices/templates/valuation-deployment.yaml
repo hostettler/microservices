@@ -27,10 +27,10 @@ spec:
       initContainers:
       - name: check-instrument-service
         image: curlimages/curl
-        command: ['sh', '-c', 'until curl -X GET http://{{ include "microservices.fullname" . }}-instrument-service:28080/instrument/count; do echo "Waiting for Instrument Service"; sleep 5; done;']
+        command: ['sh', '-c', 'until curl -X GET http://{{ include "microservices.fullname" . }}-instrument-service:80/instrument/count; do echo "Waiting for Instrument Service"; sleep 5; done;']
       - name: propagate-instruments
         image: curlimages/curl
-        command: ['sh', '-c', 'curl -X POST http://{{ include "microservices.fullname" . }}-instrument-service:28080/instrument/propagateAllInstruments']
+        command: ['sh', '-c', 'curl -X POST http://{{ include "microservices.fullname" . }}-instrument-service:80/instrument/propagateAllInstruments']
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

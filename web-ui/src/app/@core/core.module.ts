@@ -5,11 +5,11 @@ import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
 import { of as observableOf } from 'rxjs';
 
 import { throwIfAlreadyLoaded } from './module-import-guard';
-import { DataModule } from './data/data.module';
 import {
   AnalyticsService,
   LayoutService,
   PlayerService,
+  SeoService,
   StateService,
 } from './utils';
 
@@ -17,19 +17,22 @@ const socialLinks = [
   {
     url: 'https://github.com/akveo/nebular',
     target: '_blank',
-    icon: 'socicon-github',
+    icon: 'github',
   },
   {
     url: 'https://www.facebook.com/akveo/',
     target: '_blank',
-    icon: 'socicon-facebook',
+    icon: 'facebook',
   },
   {
     url: 'https://twitter.com/akveo_inc',
     target: '_blank',
-    icon: 'socicon-twitter',
+    icon: 'twitter',
   },
 ];
+
+const DATA_SERVICES = [
+  ];
 
 export class NbSimpleRoleProvider extends NbRoleProvider {
   getRole() {
@@ -39,7 +42,7 @@ export class NbSimpleRoleProvider extends NbRoleProvider {
 }
 
 export const NB_CORE_PROVIDERS = [
-  ...DataModule.forRoot().providers,
+  ...DATA_SERVICES,
   ...NbAuthModule.forRoot({
 
     strategies: [
@@ -78,6 +81,7 @@ export const NB_CORE_PROVIDERS = [
   AnalyticsService,
   LayoutService,
   PlayerService,
+  SeoService,
   StateService,
 ];
 
@@ -95,8 +99,8 @@ export class CoreModule {
     throwIfAlreadyLoaded(parentModule, 'CoreModule');
   }
 
-  static forRoot(): ModuleWithProviders {
-    return <ModuleWithProviders>{
+  static forRoot(): ModuleWithProviders<CoreModule> {
+    return {
       ngModule: CoreModule,
       providers: [
         ...NB_CORE_PROVIDERS,

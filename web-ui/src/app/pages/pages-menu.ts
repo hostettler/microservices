@@ -2,50 +2,18 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: 'Dashboards',
-    group: true,
-  },
-  {
-    title: 'Dashboard',
-    icon: 'nb-bar-chart',
-    link: '/pages/fi-dashboard',
+    title: 'Finance Dashboard',
+    icon: 'activity-outline',
+    link: '/pages/dashboard',
     home: true,
   },
   {
-    title: 'Master Data',
+    title: 'FEATURES',
     group: true,
   },
   {
-    title: 'Counterparties',
-    icon: 'nb-person',
-    children: [
-      {
-        title: 'Search',
-        link: '/pages/charts/echarts',
-      },
-      {
-        title: 'Update',
-        link: '/pages/charts/echarts',
-      },
-    ],
-  },
-  {
-    title: 'Instruments',
-    icon: 'ion-ios-pricetags',
-    children: [
-      {
-        title: 'Search',
-        link: '/pages/charts/echarts',
-      },
-      {
-        title: 'Update',
-        link: '/pages/charts/echarts',
-      },
-    ],
-  },
-  {
-    title: 'Configuration',
-    icon: 'nb-gear',
+    title: 'Auth',
+    icon: 'lock-outline',
     children: [
       {
         title: 'Login',

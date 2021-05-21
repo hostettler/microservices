@@ -34,16 +34,16 @@ spec:
         - --cookie-secure=true
         - --skip-auth-preflight=false
         - --skip-oidc-discovery
-        - --oidc-issuer-url={{ .Values.oauth.baseUrl }}
-        - --login-url={{ .Values.oauth.baseUrl }}authorize
-        - --redeem-url={{ .Values.oauth.baseUrl }}oauth/token
+        - --oidc-issuer-url={{ required "Base URL of oauth server is required" .Values.oauth.baseUrl }}
+        - --login-url={{ required "Base URL of oauth server is required" .Values.oauth.baseUrl }}authorize
+        - --redeem-url={{ required "Base URL of oauth server is required" .Values.oauth.baseUrl }}oauth/token
         - --oidc-jwks-url={{ .Values.oauth.baseUrl }}.well-known/jwks.json
         - --email-domain=*
         env:
         - name: OAUTH2_PROXY_CLIENT_ID
-          value: {{ .Values.oauth.clientId }}
+          value: {{ required "Oauth client Id is required" .Values.oauth.clientId  }}
         - name: OAUTH2_PROXY_CLIENT_SECRET
-          value: {{ .Values.oauth.secret }}
+          value: {{ required "Oauth secret is required" .Values.oauth.secret }}
         - name: OAUTH2_PROXY_COOKIE_SECRET
           value: LjWWb+S41ihgZwhO5mwsQQ==
 ---

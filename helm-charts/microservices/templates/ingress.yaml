@@ -24,7 +24,7 @@ spec:
   - host: pinfo.westeurope.cloudapp.azure.com
     http:
       paths:
-      - path: /
+      - path: /.*
         backend:
           serviceName: v1-microservices-web-ui
           servicePort: 80    

@@ -2,21 +2,22 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { PagesComponent } from './pages.component';
-import { FIDashboardComponent } from './fi-dashboard/fi-dashboard.component';
-
+import { ECommerceComponent } from './e-commerce/e-commerce.component';
 
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
   children: [
-  {
-    path: 'fi-dashboard',
-    component: FIDashboardComponent,
-  }, {
-    path: '',
-    redirectTo: 'fi-dashboard',
-    pathMatch: 'full',
-  }],
+    {
+      path: 'dashboard',
+      component: ECommerceComponent,
+    },    
+    {
+      path: '',
+      redirectTo: 'dashboard',
+      pathMatch: 'full',
+    }
+  ],
 }];
 
 @NgModule({

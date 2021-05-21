@@ -1,69 +1,88 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 
-import { NbMenuService, NbSidebarService } from '@nebular/theme';
-import { AnalyticsService } from '../../../@core/utils';
 import { LayoutService } from '../../../@core/utils';
-import { KeycloakService } from '../../../services/keycloak/keycloak.service';
-
+import { map, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
-    selector: 'fi-header',
-    styleUrls: ['./header.component.scss'],
-    templateUrl: './header.component.html',
+  selector: 'ngx-header',
+  styleUrls: ['./header.component.scss'],
+  templateUrl: './header.component.html',
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
-    @Input() position = 'normal';
+  private destroy$: Subject<void> = new Subject<void>();
+  userPictureOnly: boolean = false;
+  user: any;
 
-    user: any;
+  themes = [
+    {
+      value: 'default',
+      name: 'Light',
+    },
+    {
+      value: 'dark',
+      name: 'Dark',
+    },
+    {
+      value: 'cosmic',
+      name: 'Cosmic',
+    },
+    {
+      value: 'corporate',
+      name: 'Corporate',
+    },
+  ];
 
-    userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
+  currentTheme = 'default';
 
-    constructor(private sidebarService: NbSidebarService,
-        private menuService: NbMenuService,
-        private analyticsService: AnalyticsService,
-        private layoutService: LayoutService,
-        private keycloakService: KeycloakService) {
-    }
+  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
 
-    ngOnInit() {
-        this.user = {name: this.keycloakService.getFullName() };
-        this.menuService.onItemClick()
-            .subscribe((event) => {
-                this.onContecxtItemSelection(event.item.title);
-            });
-    }
+  constructor(private sidebarService: NbSidebarService,
+              private menuService: NbMenuService,
+              private themeService: NbThemeService,
+              private layoutService: LayoutService,
+              private breakpointService: NbMediaBreakpointsService) {
+  }
 
-    onContecxtItemSelection(title) {
-        if (title === 'Log out') {
-            this.keycloakService.logout();
-        } else {
-            console.info(this.keycloakService.getFullName() + ' (' + this.keycloakService.getUsername() + ') ');
-        }
-    }
+  ngOnInit() {
+    this.currentTheme = this.themeService.currentTheme;
 
-    toggleSidebar(): boolean {
-        this.sidebarService.toggle(true, 'menu-sidebar');
-        this.layoutService.changeLayoutSize();
+    const { xl } = this.breakpointService.getBreakpointsMap();
+    this.themeService.onMediaQueryChange()
+      .pipe(
+        map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
+        takeUntil(this.destroy$),
+      )
+      .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
 
-        return false;
-    }
+    this.themeService.onThemeChange()
+      .pipe(
+        map(({ name }) => name),
+        takeUntil(this.destroy$),
+      )
+      .subscribe(themeName => this.currentTheme = themeName);
+  }
 
-    toggleSettings(): boolean {
-        this.sidebarService.toggle(false, 'settings-sidebar');
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
-        return false;
-    }
+  changeTheme(themeName: string) {
+    this.themeService.changeTheme(themeName);
+  }
 
-    goToHome() {
-        this.menuService.navigateHome();
-    }
+  toggleSidebar(): boolean {
+    this.sidebarService.toggle(true, 'menu-sidebar');
+    this.layoutService.changeLayoutSize();
 
-    startSearch() {
-        this.analyticsService.trackEvent('startSearch');
-    }
+    return false;
+  }
 
-    logout() {
-        this.keycloakService.logout();
-    }
+  navigateHome() {
+    this.menuService.navigateHome();
+    return false;
+  }
 }

@@ -3,17 +3,20 @@
     "production": "false",
     "apiUrl": "URL_DE_API",
     "keycloak": {
-        "url": "https://localhost/auth",
+        "url": "https://pinfo.westeurope.cloudapp.azure.com/oauth2/auth",
         "realm": "apigw",
         "clientId": "web-sso",
-        "checkLoginIframe": "true",
+        "checkLoginIframe": true,
         "onLoad": "login-required",
         "responseMode": "fragment"
     },
     "counterpartyService": {
-        "url": "https://localhost/api/v1/counterparty"
+        "url": "https://pinfo.westeurope.cloudapp.azure.com/api/v1/counterparties"
     },
     "valuationService": {
-        "url": "https://localhost/api/v1/valuation"
+        "url": "https://pinfo.westeurope.cloudapp.azure.com/api/v1/valuation"
+    },
+    "authService": {
+        "url": "https://pinfo.westeurope.cloudapp.azure.com/"
     }
 }

@@ -3,14 +3,13 @@ import { Component } from '@angular/core';
 import { MENU_ITEMS } from './pages-menu';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'fi-pages',
+  selector: 'ngx-pages',
   styleUrls: ['pages.component.scss'],
   template: `
-    <fi-sample-layout>
+    <ngx-one-column-layout>
       <nb-menu [items]="menu"></nb-menu>
       <router-outlet></router-outlet>
-    </fi-sample-layout>
+    </ngx-one-column-layout>
   `,
 })
 export class PagesComponent {
