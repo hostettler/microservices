@@ -22,7 +22,7 @@
 		<java-ee-api.version>8.0.1</java-ee-api.version>
 		<postgresql.jdbc.driver.version>42.2.5</postgresql.jdbc.driver.version>
 		<hibernate-entitymanager.version>5.0.10.Final</hibernate-entitymanager.version>
-		<version.h2>1.4.200</version.h2>
+		<version.h2>2.0.206</version.h2>
 		<version.junit>5.6.0</version.junit>
 		<mockito.version>3.3.0</mockito.version>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
