@@ -21,7 +21,7 @@ export class InstrumentStatisticsService {
 
     // HttpClient API get() method => Fetch employees list
     getValuation(): Observable<Valuation> {
-        return this.http.get<Valuation>(environment.valuationService.url + '?currency=USD')
+        return this.http.get<Valuation>(environment.valuationService.url + '/USD')
             .pipe(
                 retry(1),
                 catchError(this.handleError),

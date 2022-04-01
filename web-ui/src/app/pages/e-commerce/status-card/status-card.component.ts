@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'ngx-status-card',
   styleUrls: ['./status-card.component.scss'],
   template: `
-    <nb-card>
+    <nb-card (click)="onclickCallback(this)">
       <div class="icon-container">
         <div class="icon status-{{ type }}">
           <ng-content></ng-content>
@@ -21,4 +21,6 @@ export class StatusCardComponent {
   @Input() title: string;
   @Input() type: string;
   @Input() value: string;
+  @Input() onclickCallback: Function;
+
 }

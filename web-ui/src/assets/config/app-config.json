@@ -3,7 +3,7 @@
     "production": "false",
     "apiUrl": "URL_DE_API",
     "keycloak": {
-        "url": "https://pinfo.westeurope.cloudapp.azure.com/oauth2/auth",
+        "url": "https://pinfo1.unige.ch/oauth2/auth",
         "realm": "apigw",
         "clientId": "web-sso",
         "checkLoginIframe": true,
@@ -11,12 +11,15 @@
         "responseMode": "fragment"
     },
     "counterpartyService": {
-        "url": "https://pinfo.westeurope.cloudapp.azure.com/api/v1/counterparties"
+        "url": "https://pinfo1.unige.ch/api/counterparties"
+    },
+    "instrumentService": {
+        "url": "https://pinfo1.unige.ch/api/instrument"
     },
     "valuationService": {
-        "url": "https://pinfo.westeurope.cloudapp.azure.com/api/v1/valuation"
+        "url": "https://pinfo1.unige.ch/api/valuation"
     },
     "authService": {
-        "url": "https://pinfo.westeurope.cloudapp.azure.com/"
+        "url": "https://pinfo1.unige.ch/"
     }
 }

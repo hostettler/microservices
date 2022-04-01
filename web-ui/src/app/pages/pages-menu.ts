@@ -3,8 +3,8 @@ import { NbMenuItem } from '@nebular/theme';
 export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Finance Dashboard',
-    icon: 'activity-outline',
-    link: '/pages/dashboard',
+    icon: 'shopping-cart-outline',
+    link: '/pages/e-commerce',
     home: true,
   },
   {
@@ -12,24 +12,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     group: true,
   },
   {
-    title: 'Auth',
-    icon: 'lock-outline',
+    title: 'Miscellaneous',
+    icon: 'shuffle-2-outline',
     children: [
       {
-        title: 'Login',
-        link: '/auth/login',
-      },
-      {
-        title: 'Register',
-        link: '/auth/register',
-      },
-      {
-        title: 'Request Password',
-        link: '/auth/request-password',
-      },
-      {
-        title: 'Reset Password',
-        link: '/auth/reset-password',
+        title: '404',
+        link: '/pages/miscellaneous/404',
       },
     ],
   },
