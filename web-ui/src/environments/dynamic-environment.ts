@@ -12,10 +12,6 @@ export class DynamicEnvironment {
         return window.config && window.config.apiUrl;
     }
 
-    public get keycloak() {
-        return window.config && window.config.keycloak;
-    }
-
     public get counterpartyService() {
         return window.config && window.config.counterpartyService;
     }

@@ -11,6 +11,8 @@ import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+
+import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
 import {
   NbChatModule,
   NbDatepickerModule,
@@ -53,8 +55,10 @@ export function init_config(appLoadService: AppInitService) {
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
+    OAuthModule.forRoot(),
   ],
   providers: [
+    { provide: OAuthStorage, useValue: localStorage },
     CounterpartyService,
     InstrumentStatisticsService,
     AppInitService,

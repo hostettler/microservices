@@ -2,14 +2,6 @@
     "environment": "local",
     "production": "false",
     "apiUrl": "URL_DE_API",
-    "keycloak": {
-        "url": "https://pinfo1.unige.ch/oauth2/auth",
-        "realm": "apigw",
-        "clientId": "web-sso",
-        "checkLoginIframe": true,
-        "onLoad": "login-required",
-        "responseMode": "fragment"
-    },
     "counterpartyService": {
         "url": "https://pinfo1.unige.ch/api/counterparties"
     },
@@ -18,8 +10,5 @@
     },
     "valuationService": {
         "url": "https://pinfo1.unige.ch/api/valuation"
-    },
-    "authService": {
-        "url": "https://pinfo1.unige.ch/"
     }
 }

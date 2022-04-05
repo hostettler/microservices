@@ -6,6 +6,8 @@ import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
+import { OAuthService } from 'angular-oauth2-oidc';
+
 @Component({
   selector: 'ngx-header',
   styleUrls: ['./header.component.scss'],
@@ -38,14 +40,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
 
   constructor(private sidebarService: NbSidebarService,
-              private menuService: NbMenuService,
-              private themeService: NbThemeService,
-              private userService: UserData,
-              private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService) {
+    private menuService: NbMenuService,
+    private themeService: NbThemeService,
+    private userService: UserData,
+    private layoutService: LayoutService,
+    private breakpointService: NbMediaBreakpointsService,
+    private oauthService: OAuthService,
+  ) {
+  }
+
+  public get name() {
+    const property: string = 'email';
+    const claims = this.oauthService.getIdentityClaims();
+    if (!claims) {
+      return 'guest';
+    }
+    return claims[property];
   }
 
   ngOnInit() {
@@ -69,6 +82,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe(themeName => this.currentTheme = themeName);
+
+    this.menuService.onItemClick()
+      .subscribe((event) => {
+        this.onContecxtItemSelection(event.item.title);
+      });
+
   }
 
   ngOnDestroy() {
@@ -87,8 +106,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  onContecxtItemSelection(title: string) {
+    switch (title) {
+      case 'Log out':
+        this.oauthService.logOut();
+        break;
+      default:
+    }
+  }
+
   navigateHome() {
     this.menuService.navigateHome();
     return false;
   }
+
+
 }
