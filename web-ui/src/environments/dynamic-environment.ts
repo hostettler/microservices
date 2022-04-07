@@ -24,4 +24,16 @@ export class DynamicEnvironment {
         return window.config && window.config.valuationService;
     }
 
+    public get issuer() {
+        return window.config && window.config.issuer;
+    }
+
+    public get clientId() {
+        return window.config && window.config.clientId;
+    }
+
+    public get logoutPath() {
+        return window.config && window.config.logoutPath;
+    }
+
 }

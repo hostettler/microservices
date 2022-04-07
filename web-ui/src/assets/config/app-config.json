@@ -10,5 +10,8 @@
     },
     "valuationService": {
         "url": "https://pinfo1.unige.ch/api/valuation"
-    }
+    },
+    "issuer": "https://pinfo.us.auth0.com/",
+    "logoutPath": "v2/logout",
+    "clientId": "XXXXXXXXXXXXXXXXXXXXXXXXXE"
 }
