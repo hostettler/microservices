@@ -64,7 +64,7 @@
     "ngx-echarts": "^4.2.2",
     "node-sass": "^7.0.1",
     "normalize.css": "6.0.0",
-    "npm": "^8.5.5",
+    "npm": "^8.11.0",
     "pace-js": "1.0.2",
     "roboto-fontface": "0.8.0",
     "rxjs": "6.6.2",
